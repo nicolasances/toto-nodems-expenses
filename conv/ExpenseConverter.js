@@ -59,7 +59,7 @@ exports.filterExpenses = function(filter) {
     var startYear = year + '0000';
     var endYear = (parseInt(year) + 1) + '0000';
 
-    cardMonthFilter = {$and: [{cardMonth: filter.cardMonth}, {date: {$gte: startYear}}, {date: {$lte, endYear}}]};
+    cardMonthFilter = {$and: [{cardMonth: filter.cardMonth}, {date: {$gte: startYear, $lte: endYear}}]};
   }
 
   var currencyFilter = {};
