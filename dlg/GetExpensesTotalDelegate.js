@@ -11,7 +11,7 @@ exports.getExpensesTotal = function(filter) {
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       var group = {$group: {_id: null, sum: {$sum: '$amountInEuro'}}};
-      var match = {$match: {yearMonth: filter.yearMonth}};
+      var match = {$match: {yearMonth: parseInt(filter.yearMonth)}};
       if (filter.currency != null) match.$match.currency = filter.currency;
 
       console.log(match);
