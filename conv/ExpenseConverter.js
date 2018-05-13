@@ -44,7 +44,7 @@ exports.sortExpenses = function(sort) {
 exports.filterExpenses = function(filter) {
 
   var yearMonthFilter = {};
-  if (filter.yearMonth != null) yearMonthFilter = {yearMonth: filter.yearMonth};
+  if (filter.yearMonth != null) yearMonthFilter = {yearMonth: parseInt(filter.yearMonth)};
 
   var categoryFilter = {};
   if (filter.category != null) categoryFilter = {category: filter.category};
