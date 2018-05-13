@@ -60,6 +60,8 @@ exports.getCategories = function() {
         filename: cat.svgFile
       });
     }
+
+    success({categories: cats});
   });
 
 }
