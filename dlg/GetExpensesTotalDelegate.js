@@ -14,9 +14,14 @@ exports.getExpensesTotal = function(filter) {
       var match = {$match: {yearMonth: filter.yearMonth}};
       if (filter.currency != null) match.$match.currency = filter.currency;
 
+      console.log(match);
+      console.log(group);
+
       db.db(config.dbName).collection(config.collections.expenses).aggregate([match, group]).toArray(function(err, array) {
 
         db.close();
+
+        console.log(array);
 
         if (array == null || array.length == 0) {
           success({total: 0});
