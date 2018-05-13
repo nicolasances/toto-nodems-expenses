@@ -52,7 +52,7 @@ exports.getCategories = function() {
 
     var categories = [];
 
-    for (let cat of categories.values) {
+    for (let cat of categories.values()) {
       categories.push({
         code: cat.code,
         color: cat.color,
