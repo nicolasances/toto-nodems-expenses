@@ -50,10 +50,10 @@ exports.getCategories = function() {
 
   return new Promise(function(success, failure) {
 
-    var categories = [];
+    var cats = [];
 
     for (let cat of categories.values()) {
-      categories.push({
+      cats.push({
         code: cat.code,
         color: cat.color,
         description: cat.description,
