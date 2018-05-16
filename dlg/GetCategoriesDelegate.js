@@ -12,7 +12,7 @@ var newCategory = function(code, desc, svg, color) {
 }
 
 colors.set('green', '#4CAF50');
-colors.set('red', '#F44336');
+colors.set('red', '#d8736c');
 colors.set('pink', '#E91E63');
 colors.set('purple', '#9C27B0');
 colors.set('deep-purple', '#673AB7');
@@ -29,8 +29,8 @@ colors.set('amber', '#FFC107');
 colors.set('orange', '#FF9800');
 colors.set('deep-orange', '#FF5722');
 colors.set('brown', '#795548');
-colors.set('grey', '#9E9E9E');
-colors.set('blue-grey', '#607D8B');
+colors.set('grey', '#c5c5c5');
+colors.set('blue-grey', '#526d79');
 
 categories.set('AUTO', newCategory('AUTO', 'Car', 'car.svg', colors.get('red')));
 categories.set('CLOTHES', newCategory('CLOTHES', 'Clothes', 'clothes.svg', colors.get('blue')));
