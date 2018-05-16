@@ -21,19 +21,17 @@ exports.updateExpense = function(data) {
 exports.sortExpenses = function(sort) {
 
   if (sort.sortAmount == 'true') {
-    if (sort.desc == 'true') return {amount: -1};
+    if (sort.sortDesc == 'true') return {amount: -1};
     else return {amount: 1};
   }
 
   if (sort.sortYearMonth == 'true') {
-    if (sort.desc == 'true') return {yearMonth: -1};
+    if (sort.sortDesc == 'true') return {yearMonth: -1};
     else return {yearMonth: 1};
   }
 
-  console.log(sort);
-
   if (sort.sortDate == 'true') {
-    if (sort.desc == 'true') return {date: -1};
+    if (sort.sortDesc == 'true') return {date: -1};
     else return {date: 1};
   }
 
