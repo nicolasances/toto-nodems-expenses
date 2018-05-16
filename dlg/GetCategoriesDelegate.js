@@ -18,7 +18,7 @@ colors.set('purple', '#9C27B0');
 colors.set('deep-purple', '#673AB7');
 colors.set('indigo', '#3F51B5');
 colors.set('blue', '#2196F3');
-colors.set('light-blue', '#03A9F4');
+colors.set('light-blue', '#69d0ff');
 colors.set('cyan', '#00BCD4');
 colors.set('teal', '#009688');
 colors.set('green', '#39ca3f');
