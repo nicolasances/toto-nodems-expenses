@@ -30,6 +30,8 @@ exports.sortExpenses = function(sort) {
     else return {yearMonth: 1};
   }
 
+  console.log(sort);
+
   if (sort.sortDate == 'true') {
     if (sort.desc == 'true') return {date: -1};
     else return {date: 1};
