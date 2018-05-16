@@ -20,18 +20,18 @@ exports.updateExpense = function(data) {
  */
 exports.sortExpenses = function(sort) {
 
-  if (sort.sortAmount) {
-    if (sort.desc) return {amount: -1};
+  if (sort.sortAmount == 'true') {
+    if (sort.desc == 'true') return {amount: -1};
     else return {amount: 1};
   }
 
-  if (sort.sortYearMonth) {
-    if (sort.desc) return {yearMonth: -1};
+  if (sort.sortYearMonth == 'true') {
+    if (sort.desc == 'true') return {yearMonth: -1};
     else return {yearMonth: 1};
   }
 
-  if (sort.sortDate) {
-    if (sort.desc) return {date: -1};
+  if (sort.sortDate == 'true') {
+    if (sort.desc == 'true') return {date: -1};
     else return {date: 1};
   }
 
@@ -108,7 +108,7 @@ exports.expensePO = function(data) {
           category: data.category,
           description: data.description,
           yearMonth: parseInt(data.yearMonth),
-          consolidated: data.consolidated,
+          consolidated: data.consolidated == 'true' ? true : false,
           cardId: data.cardId,
           cardMonth: data.cardMonth,
           currency: data.currency,
@@ -124,7 +124,7 @@ exports.expensePO = function(data) {
         category: data.category,
         description: data.description,
         yearMonth: parseInt(data.yearMonth),
-        consolidated: data.consolidated,
+        consolidated: data.consolidated == 'true' ? true : false,
         cardId: data.cardId,
         cardMonth: data.cardMonth,
         currency: data.currency,
