@@ -12,6 +12,8 @@ exports.getExpenses = function(filter, sort) {
 
       if (filter.maxResults == null) filter.maxResults = 0;
 
+      console.log(converter.sortExpenses(sort));
+
       db.db(config.dbName).collection(config.collections.expenses).find(converter.filterExpenses(filter), {limit: filter.maxResults}).sort(converter.sortExpenses(sort)).toArray(function(err, array) {
 
         db.close();
