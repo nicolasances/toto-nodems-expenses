@@ -21,7 +21,7 @@ colors.set('blue', '#2196F3');
 colors.set('light-blue', '#03A9F4');
 colors.set('cyan', '#00BCD4');
 colors.set('teal', '#009688');
-colors.set('green', '#4CAF50');
+colors.set('green', '#39ca3f');
 colors.set('light-green', '#8BC34A');
 colors.set('lime', '#CDDC39');
 colors.set('yellow', '#FFEB3B');
