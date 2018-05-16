@@ -27,7 +27,7 @@ app.get('/expenses', function(req, res) {
   logger.apiCalled('expenses', '/expenses', 'GET', req.query, req.params, req.body);
   getExpensesDlg.getExpenses({yearMonth: req.query.yearMonth, maxResults: req.query.maxResults, category: req.query.category, cardId: req.query.cardId, cardMonth: req.query.cardMonth, currency: req.query.currency}, {sortDate: req.query.sortDate, sortAmount: req.query.sortAmount, sortYearMonth: req.query.sortYearMonth, sortDesc: req.query.sortDesc}).then(function(result) {res.send(result);});
 });
-app.post('/expenses', function(req, res) {logger.apiCalled('expenses', '/expenses', 'POST', req.query, req.params, req.body); postExpenseDlg.Expense(req.body).then(function(result) {res.send(result);});});
+app.post('/expenses', function(req, res) {logger.apiCalled('expenses', '/expenses', 'POST', req.query, req.params, req.body); postExpenseDlg.postExpense(req.body).then(function(result) {res.send(result);});});
 app.delete('/expenses/:id', function(req, res) {logger.apiCalled('expenses', '/expenses/:id', 'DELETE', req.query, req.params, req.body); deleteExpenseDlg.deleteExpense(req.params.id).then(function(result) {res.send(result);});});
 app.get('/expenses/:id', function(req, res) {logger.apiCalled('expenses', '/expenses/:id', 'GET', req.query, req.params, req.body); getExpenseDlg.getExpense(req.params.id).then(function(result) {res.send(result);});});
 app.put('/expenses/:id', function(req, res) {logger.apiCalled('expenses', '/expenses/:id', 'PUT', req.query, req.params, req.body); putExpenseDlg.putExpense(req.params.id, req.body).then(function(result) {res.send(result);});});
