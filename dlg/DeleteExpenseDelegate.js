@@ -4,7 +4,7 @@ var converter = require('../conv/ExpenseConverter');
 
 var MongoClient = mongo.MongoClient;
 
-exports.putExpense = function(id, request) {
+exports.deleteExpense = function(id, request) {
 
   return new Promise(function(success, failure) {
 
