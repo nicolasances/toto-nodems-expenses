@@ -6,6 +6,8 @@ var MongoClient = mongo.MongoClient;
 
 exports.getExpenses = function(filter, sort) {
 
+  console.log(sort);
+
   return new Promise(function(success, failure) {
 
     return MongoClient.connect(config.mongoUrl, function(err, db) {
