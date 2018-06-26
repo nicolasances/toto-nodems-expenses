@@ -14,6 +14,8 @@ exports.putExpense = function(id, request) {
 
         db.close();
 
+        success();
+
       });
     });
   });
