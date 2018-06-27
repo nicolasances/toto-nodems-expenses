@@ -53,13 +53,10 @@ exports.filterExpenses = function(filter) {
   if (filter.cardId != null) cardFilter = {cardId: filter.cardId};
 
   var cardMonthFilter = {};
-  if (filter.cardMonth != null) {
+  if (filter.cardMonth != null && filter.cardYear != null) {
 
-    var year = moment().format('YYYY');
-    var startYear = year + '0000';
-    var endYear = (parseInt(year) + 1) + '0000';
 
-    cardMonthFilter = {$and: [{cardMonth: filter.cardMonth}, {date: {$gte: startYear, $lte: endYear}}]};
+    cardMonthFilter = {$and: [{cardMonth: filter.cardMonth}, {cardYear: filter.cardYear}]};
   }
 
   var currencyFilter = {};
@@ -84,6 +81,7 @@ exports.expenseTO = function(data) {
     consolidated: data.consolidated,
     cardId: data.cardId,
     cardMonth: data.cardMonth,
+    cardYear: data.cardYear,
     weekendId: data.weekendId,
     currency: data.currency,
     amountInEuro: data.amountInEuro
@@ -111,6 +109,7 @@ exports.expensePO = function(data) {
           consolidated: data.consolidated == 'true' ? true : false,
           cardId: data.cardId,
           cardMonth: data.cardMonth,
+          cardYear: data.cardYear,
           currency: data.currency,
           amountInEuro: rate * parseFloat(data.amount)
         });
@@ -127,6 +126,7 @@ exports.expensePO = function(data) {
         consolidated: data.consolidated == 'true' ? true : false,
         cardId: data.cardId,
         cardMonth: data.cardMonth,
+        cardYear: data.cardYear,
         currency: data.currency,
         amountInEuro: parseFloat(data.amount)
       });
