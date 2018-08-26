@@ -12,17 +12,19 @@ var getExpenseDlg = require('./dlg/GetExpenseDelegate');
 var getCategoriesDlg = require('./dlg/GetCategoriesDelegate');
 var deleteExpenseDlg = require('./dlg/DeleteExpenseDelegate');
 
+var apiName = 'expenses';
+
 var app = express();
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, GoogleIdToken");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
   next();
 });
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {res.send({status: 'running'});});
+app.get('/', function(req, res) {res.send({api: apiName, status: 'running'});});
 app.get('/expenses', function(req, res) {
   logger.apiCalled('expenses', '/expenses', 'GET', req.query, req.params, req.body);
   getExpensesDlg.getExpenses({yearMonth: req.query.yearMonth, maxResults: req.query.maxResults, category: req.query.category, cardId: req.query.cardId, cardMonth: req.query.cardMonth, cardYear: req.query.cardYear, currency: req.query.currency}, {sortDate: req.query.sortDate, sortAmount: req.query.sortAmount, sortYearMonth: req.query.sortYearMonth, sortDesc: req.query.sortDesc}).then(function(result) {res.send(result);});
