@@ -54,13 +54,14 @@ exports.filterExpenses = function(filter) {
 
   var cardMonthFilter = {};
   if (filter.cardMonth != null && filter.cardYear != null) {
-
-
     cardMonthFilter = {$and: [{cardMonth: filter.cardMonth}, {cardYear: filter.cardYear}]};
   }
 
   var currencyFilter = {};
   if (filter.currency != null) currencyFilter = {currency: filter.currency};
+
+  var dateGteFilter = {};
+  if (filter.dateGte != null) dateGteFilter = {$gte: {date: parseInt(filter.dateGte)}};
 
   return {$and: [yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter]};
 
