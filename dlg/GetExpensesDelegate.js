@@ -16,6 +16,11 @@ exports.getExpenses = function(filter, sort) {
 
         db.close();
 
+        if (array == null) {
+          success({expenses: []});
+          return;
+        }
+
         var expenses = [];
 
         for (var i = 0; i < array.length; i++) {
