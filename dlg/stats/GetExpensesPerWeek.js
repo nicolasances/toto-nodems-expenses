@@ -29,7 +29,7 @@ exports.do = function(query) {
       // Prepare the aggregate
       let aggregate = [filter, groupByDay, weekProject, groupByWeek, sort]
 
-      // console.log(JSON.stringify(aggregate));
+      console.log(JSON.stringify(aggregate));
 
       db.db(config.dbName).collection(config.collections.expenses).aggregate(aggregate).toArray(function(err, array) {
 
