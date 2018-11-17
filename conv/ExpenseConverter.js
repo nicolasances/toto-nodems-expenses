@@ -85,7 +85,8 @@ exports.expenseTO = function(data) {
     cardYear: data.cardYear,
     weekendId: data.weekendId,
     currency: data.currency,
-    amountInEuro: data.amountInEuro
+    amountInEuro: data.amountInEuro,
+    additionalData: data.additionalData
   };
 }
 
@@ -112,7 +113,8 @@ exports.expensePO = function(data) {
           cardMonth: data.cardMonth,
           cardYear: data.cardYear,
           currency: data.currency,
-          amountInEuro: rate * parseFloat(data.amount)
+          amountInEuro: rate * parseFloat(data.amount),
+          additionalData: data.additionalData
         });
       });
 
@@ -129,7 +131,8 @@ exports.expensePO = function(data) {
         cardMonth: data.cardMonth,
         cardYear: data.cardYear,
         currency: data.currency,
-        amountInEuro: parseFloat(data.amount)
+        amountInEuro: parseFloat(data.amount),
+        additionalData: data.additionalData
       });
     }
 
