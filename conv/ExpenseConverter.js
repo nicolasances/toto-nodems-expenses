@@ -63,6 +63,8 @@ exports.filterExpenses = function(filter) {
   var dateGteFilter = {};
   if (filter.dateGte != null) dateGteFilter = {$gte: {date: parseInt(filter.dateGte)}};
 
+  console.log({$and: [yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter, dateGteFilter]});
+
   return {$and: [yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter, dateGteFilter]};
 
 }
