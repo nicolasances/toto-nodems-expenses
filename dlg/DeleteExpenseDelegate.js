@@ -14,6 +14,8 @@ exports.deleteExpense = function(id, request) {
 
         db.close();
 
+        success({});
+
       });
     });
   });
