@@ -27,7 +27,21 @@ app.use(bodyParser.json());
 app.get('/', function(req, res) {res.send({api: apiName, status: 'running'});});
 app.get('/expenses', function(req, res) {
   logger.apiCalled('expenses', '/expenses', 'GET', req.query, req.params, req.body);
-  getExpensesDlg.getExpenses({yearMonth: req.query.yearMonth, maxResults: req.query.maxResults, category: req.query.category, cardId: req.query.cardId, cardMonth: req.query.cardMonth, cardYear: req.query.cardYear, currency: req.query.currency, dateGte: req.query.dateGte}, {sortDate: req.query.sortDate, sortAmount: req.query.sortAmount, sortYearMonth: req.query.sortYearMonth, sortDesc: req.query.sortDesc}).then(function(result) {res.send(result);});
+  getExpensesDlg.getExpenses(
+    { yearMonth: req.query.yearMonth,
+      maxResults: req.query.maxResults,
+      category: req.query.category,
+      cardId: req.query.cardId,
+      cardMonth: req.query.cardMonth,
+      cardYear: req.query.cardYear,
+      currency: req.query.currency,
+      dateGte: req.query.dateGte
+    },
+    { sortDate: req.query.sortDate,
+      sortAmount: req.query.sortAmount,
+      sortYearMonth: req.query.sortYearMonth,
+      sortDesc: req.query.sortDesc
+    }).then(function(result) {res.send(result);});
 });
 app.post('/expenses', function(req, res) {logger.apiCalled('expenses', '/expenses', 'POST', req.query, req.params, req.body); postExpenseDlg.postExpense(req.body).then(function(result) {res.send(result);});});
 app.get('/expenses/totals', function(req, res) {logger.apiCalled('expenses', '/expenses/totals', 'GET', req.query, req.params, req.body); getExpensesTotalsDlg.getExpensesTotals({maxResults: req.query.maxResults, currentYearMonth: req.query.currentYearMonth, currency: req.query.currency}).then(function(result) {res.send(result);});});
