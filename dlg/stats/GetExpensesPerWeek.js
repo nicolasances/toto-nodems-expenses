@@ -11,7 +11,7 @@ exports.do = function(query) {
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       // Prepare the filter
-      let filter = converter.filterExpenses(query);
+      let filter = {$match: converter.filterExpenses(query)};
 
       // Prepare the grouping
       // TODO: Could be optimized: no need to group by date first (i could just go to project and then group by week)
@@ -29,7 +29,7 @@ exports.do = function(query) {
       // Prepare the aggregate
       let aggregate = [filter, groupByDay, weekProject, groupByWeek, sort]
 
-      console.log(JSON.stringify(aggregate));
+      // console.log(JSON.stringify(aggregate));
 
       db.db(config.dbName).collection(config.collections.expenses).aggregate(aggregate).toArray(function(err, array) {
 
