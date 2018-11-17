@@ -12,6 +12,8 @@ var getExpenseDlg = require('./dlg/GetExpenseDelegate');
 var getCategoriesDlg = require('./dlg/GetCategoriesDelegate');
 var deleteExpenseDlg = require('./dlg/DeleteExpenseDelegate');
 
+var getExpensesPerWeek = require('./dlg/stats/GetExpensesPerWeek');
+
 var apiName = 'expenses';
 
 var app = express();
@@ -50,6 +52,8 @@ app.put('/expenses/:id', function(req, res) {logger.apiCalled('expenses', '/expe
 app.delete('/expenses/:id', function(req, res) {logger.apiCalled('expenses', '/expenses/:id', 'DELETE', req.query, req.params, req.body); deleteExpenseDlg.deleteExpense(req.params.id).then(function(result) {res.send(result);});});
 app.get('/expenses/:yearMonth/total', function(req, res) {logger.apiCalled('expenses', '/expenses/:yearMonth/total', 'GET', req.query, req.params, req.body); getExpensesTotalDlg.getExpensesTotal({yearMonth: req.params.yearMonth, currency: req.query.currency}).then(function(result) {res.send(result);});});
 app.get('/categories', function(req, res) {logger.apiCalled('expenses', '/categories', 'GET', req.query, req.params, req.body); getCategoriesDlg.getCategories().then(function(result) {res.send(result);});});
+
+app.get('/stats/expensesPerWeek', function(req, res) {logger.apiCalled('expenses', '/stats/expensesPerWeek', 'GET', req.query, req.params, req.body); getExpensesPerWeek.do(req.query).then(function(result) {res.send(result);});});
 
 app.listen(8080, function() {
   console.log('Expenses Microservice up and running');
