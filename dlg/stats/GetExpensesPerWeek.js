@@ -27,14 +27,14 @@ exports.do = function(query) {
       let sort = {"_id.year": 1, '_id.week': 1};
 
       // Prepare the aggregate
-      let aggregate = [filter, groupByDay, weekProject, sort]
+      let aggregate = [filter, groupByDay, weekProject, groupByWeek, sort]
 
       db.db(config.dbName).collection(config.collections.expenses).aggregate(aggregate).toArray(function(err, array) {
 
         db.close();
 
         if (array == null) {
-          success({days: []});
+          success({weeks: []});
           return;
         }
 
