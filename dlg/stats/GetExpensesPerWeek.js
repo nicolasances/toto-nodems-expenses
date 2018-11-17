@@ -18,7 +18,7 @@ exports.do = function(query) {
       let groupByDay = {$group: {_id: {date: '$date'}, amount: {$sum: '$amountInEuro'}}}
 
       // Project to extract week and year
-      let weekProject = {$project: {year: {$year: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, week: {$week: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, amount: '$amount'}}
+      let weekProject = {$project: {year: {$year: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, week: {$isoWeek: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, amount: '$amount'}}
 
       // Group again by week
       let groupByWeek = {$group: {_id: {week: '$week', year: '$year'}, amount: {$sum: '$amount'}}};
