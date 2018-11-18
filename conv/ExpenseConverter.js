@@ -72,6 +72,8 @@ exports.filterExpenses = function(filter) {
  */
 exports.expenseTO = function(data) {
 
+  if (data == null) return {};
+
   return {
     id: data._id,
     amount: data.amount,
