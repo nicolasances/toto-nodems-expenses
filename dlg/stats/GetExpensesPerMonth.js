@@ -19,39 +19,39 @@ exports.do = function(req) {
       // TODO: Could be optimized: no need to group by date first (i could just go to project and then group by week)
       let groupByDay = {$group: {_id: {date: '$date'}, amount: {$sum: '$amountInEuro'}}}
 
-      // Project to extract week and year
-      let weekProject = {$project: {year: {$year: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, week: {$isoWeek: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, amount: '$amount'}}
+      // Project to extract month and year
+      let monthProject = {$project: {year: {$year: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, month: {month: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, amount: '$amount'}}
 
-      // Group again by week
-      let groupByWeek = {$group: {_id: {week: '$week', year: '$year'}, amount: {$sum: '$amount'}}};
+      // Group again by month
+      let groupByMonth = {$group: {_id: {month: '$month', year: '$year'}, amount: {$sum: '$amount'}}};
 
       // Sorting
-      let sort = {$sort: {"_id.year": 1, '_id.week': 1}};
+      let sort = {$sort: {"_id.year": 1, '_id.month': 1}};
 
       // Prepare the aggregate
-      let aggregate = [filter, groupByDay, weekProject, groupByWeek, sort]
+      let aggregate = [filter, groupByDay, monthProject, groupByMonth, sort]
 
       db.db(config.dbName).collection(config.collections.expenses).aggregate(aggregate).toArray(function(err, array) {
 
         db.close();
 
         if (array == null) {
-          success({weeks: []});
+          success({months: []});
           return;
         }
 
-        var weeks = [];
+        var months = [];
 
         for (var i = 0; i < array.length; i++) {
 
-          weeks.push({
-            week: array[i]._id.week,
+          months.push({
+            month: array[i]._id.month,
             year: array[i]._id.year,
             amount: array[i].amount
           });
         }
 
-        success({weeks: weeks});
+        success({months: months});
 
       });
     });
