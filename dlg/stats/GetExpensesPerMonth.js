@@ -20,7 +20,7 @@ exports.do = function(req) {
       let groupByDay = {$group: {_id: {date: '$date'}, amount: {$sum: '$amountInEuro'}}}
 
       // Project to extract month and year
-      let monthProject = {$project: {year: {$year: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, month: {month: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, amount: '$amount'}}
+      let monthProject = {$project: {year: {$year: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, month: {$month: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, amount: '$amount'}}
 
       // Group again by month
       let groupByMonth = {$group: {_id: {month: '$month', year: '$year'}, amount: {$sum: '$amount'}}};
