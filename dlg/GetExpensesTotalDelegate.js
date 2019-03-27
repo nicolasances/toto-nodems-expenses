@@ -4,7 +4,12 @@ var converter = require('../conv/ExpenseConverter');
 
 var MongoClient = mongo.MongoClient;
 
-exports.getExpensesTotal = function(filter) {
+exports.do = function(req) {
+
+  let filter = {
+    yearMonth: req.params.yearMonth,
+    currency: req.query.currency
+  };
 
   return new Promise(function(success, failure) {
 

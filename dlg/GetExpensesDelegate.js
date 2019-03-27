@@ -4,7 +4,28 @@ var converter = require('../conv/ExpenseConverter');
 
 var MongoClient = mongo.MongoClient;
 
-exports.getExpenses = function(filter, sort) {
+/**
+ * Admitted query params for FILTERING :
+ *     { yearMonth: req.query.yearMonth,
+ *       maxResults: req.query.maxResults,
+ *       category: req.query.category,
+ *       cardId: req.query.cardId,
+ *       cardMonth: req.query.cardMonth,
+ *       cardYear: req.query.cardYear,
+ *       currency: req.query.currency,
+ *       dateGte: req.query.dateGte
+ *     }
+ * Admitted query params for sorting:
+ *     { sortDate: req.query.sortDate,
+ *       sortAmount: req.query.sortAmount,
+ *       sortYearMonth: req.query.sortYearMonth,
+ *       sortDesc: req.query.sortDesc
+ *     }
+ */
+exports.do = function(req) {
+
+  let filter = req.query;
+  let sort = req.query;
 
   return new Promise(function(success, failure) {
 

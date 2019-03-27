@@ -19,7 +19,7 @@ exports.getExchangeRate = function(currency) {
       var rates = JSON.parse(body);
 
       success(rates.rate);
-      
+
     });
 
   });

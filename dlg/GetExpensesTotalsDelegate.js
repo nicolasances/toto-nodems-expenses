@@ -3,6 +3,10 @@ var moment = require('moment-timezone');
 
 /**
  * Calculates a month by subtracting the passed month with the subtractMonths param
+ * { maxResults: req.query.maxResults,
+ *   currentYearMonth: req.query.currentYearMonth,
+ *   currency: req.query.currency
+ * }
  */
 var getYearMonth = function(currentYearMonth, subtractMonths) {
 
@@ -14,7 +18,13 @@ var getYearMonth = function(currentYearMonth, subtractMonths) {
 /**
  * Retrieves the list of totals for n months (specified in request.maxResults)
  */
-exports.getExpensesTotals = function(request) {
+exports.do = function(req) {
+
+  let request = {
+    maxResults: req.query.maxResults,
+    currentYearMonth: req.query.currentYearMonth,
+    currency: req.query.currency
+  }
 
   return new Promise(function(success, failure) {
 

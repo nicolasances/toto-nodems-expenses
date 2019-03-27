@@ -4,7 +4,9 @@ var converter = require('../../conv/ExpenseConverter');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(query) {
+exports.do = function(req) {
+
+  let query = req.query;
 
   return new Promise(function(success, failure) {
 
