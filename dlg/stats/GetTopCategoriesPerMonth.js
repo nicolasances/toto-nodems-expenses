@@ -14,11 +14,10 @@ exports.do = function(req) {
 
       // Prepare the aggregate
       let aggregate = [ {$match: converter.filterExpenses(query)},
-        {$project: {date: '$date', year: {$year: {$dateFromString: {dateString: {'$toString': '$date'}, format: '%Y%m%d'}}}, month: {$month: {$dateFromString: {dateString: {'$toString': '$date'}, format: '%Y%m%d'}}}, amount: '$amountInEuro', category: '$category'}},
-        {$group: {_id: {year: '$year', month: '$month', category: '$category'}, amount: {$sum: '$amount'}}},
-        {$sort: {'_id.year': 1, '_id.month': 1, 'amount': -1}},
-        {$group: {_id: {year: '$_id.year', month: '$_id.month'}, category: {$first: '$_id.category'}, amount: {$max: '$amount'}}},
-        {$sort: {'_id.year': 1, '_id.month': 1}}
+        {$group: {_id: {yearMonth: '$yearMonth', category: '$category'}, amount: {$sum: '$amountInEuro'}}},
+        {$sort: {'_id.yearMonth': 1, 'amount': -1}},
+        {$group: {_id: {yearMonth: '$_id.yearMonth'}, category: {$first: '$_id.category'}, amount: {$max: '$amount'}}},
+        {$sort: {'_id.yearMonth': 1}}
       ];
 
       db.db(config.dbName).collection(config.collections.expenses).aggregate(aggregate).toArray(function(err, array) {
@@ -35,8 +34,7 @@ exports.do = function(req) {
         for (var i = 0; i < array.length; i++) {
 
           months.push({
-            year: array[i]._id.year,
-            month: array[i]._id.month,
+            yearMonth: array[i]._id.yearMonth,
             category: array[i].category,
             amount: array[i].amount
           });

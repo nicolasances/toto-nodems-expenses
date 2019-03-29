@@ -29,8 +29,6 @@ exports.do = function(req) {
         {$limit: maxCategories}
       ];
 
-      console.log(JSON.stringify(aggregate));
-
       db.db(config.dbName).collection(config.collections.expenses).aggregate(aggregate).toArray(function(err, array) {
 
         db.close();
