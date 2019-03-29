@@ -18,7 +18,7 @@ exports.do = function(req) {
       let filter = {$match: {yearMonth: {$gte: yearMonthGte}}};
 
       // Prepare the grouping
-      let groupByYearmonth = {$group: {_id: {yearMonth: 'yearMonth'}, amount: {$sum: '$amountInEuro'}}}
+      let groupByYearmonth = {$group: {_id: {yearMonth: '$yearMonth'}, amount: {$sum: '$amountInEuro'}}}
 
       // Sorting
       let sort = {$sort: {"_id.yearMonth": 1}};
