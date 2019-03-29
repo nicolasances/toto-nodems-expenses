@@ -10,10 +10,12 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
+    let yearMonthGte = query.yearMonthGte == null ? 190001 : parseInt(query.yearMonthGte);
+
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       // Prepare the filter
-      let filter = {$match: converter.filterExpenses(query)};
+      let filter = {$match: {yearMonth: {$gte: yearMonthGte}}};
 
       // Prepare the grouping
       let groupByYearmonth = {$group: {_id: {yearMonth: 'yearMonth'}, amount: {$sum: '$amountInEuro'}}}
