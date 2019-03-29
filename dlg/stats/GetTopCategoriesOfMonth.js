@@ -12,10 +12,12 @@ exports.do = function(req) {
 
   let query = req.query;
 
-  let maxCategories = query.maxCategories != null ? query.maxCategories : 5;
-  let yearMonth = query.yearMonth;
-
   return new Promise(function(success, failure) {
+
+    if (query.yearMonth == null) {failure({code: 400, message: 'Missing "yearMonth" query parameter.'}); return;}
+
+    let maxCategories = query.maxCategories != null ? query.maxCategories : 5;
+    let yearMonth = parseInt(query.yearMonth);
 
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
