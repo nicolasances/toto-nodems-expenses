@@ -16,20 +16,13 @@ exports.do = function(req) {
       let filter = {$match: converter.filterExpenses(query)};
 
       // Prepare the grouping
-      // TODO: Could be optimized: no need to group by date first (i could just go to project and then group by week)
-      let groupByDay = {$group: {_id: {date: '$date'}, amount: {$sum: '$amountInEuro'}}}
-
-      // Project to extract month and year
-      let monthProject = {$project: {year: {$year: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, month: {$month: {$dateFromString: {dateString: {'$toString': '$_id.date'}, format: '%Y%m%d'}}}, amount: '$amount'}}
-
-      // Group again by month
-      let groupByMonth = {$group: {_id: {month: '$month', year: '$year'}, amount: {$sum: '$amount'}}};
+      let groupByYearmonth = {$group: {_id: {yearMonth: 'yearMonth'}, amount: {$sum: '$amountInEuro'}}}
 
       // Sorting
-      let sort = {$sort: {"_id.year": 1, '_id.month': 1}};
+      let sort = {$sort: {"_id.yearMonth": 1}};
 
       // Prepare the aggregate
-      let aggregate = [filter, groupByDay, monthProject, groupByMonth, sort]
+      let aggregate = [filter, groupByYearmonth, sort]
 
       db.db(config.dbName).collection(config.collections.expenses).aggregate(aggregate).toArray(function(err, array) {
 
