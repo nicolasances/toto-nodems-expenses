@@ -12,8 +12,8 @@ exports.do = function(req) {
 
   let query = req.query;
 
-  let maxCategories = req.maxCategories != null req.maxCategories : 5;
-  let yearMonth = req.yearMonth;
+  let maxCategories = query.maxCategories != null query.maxCategories : 5;
+  let yearMonth = query.yearMonth;
 
   return new Promise(function(success, failure) {
 
