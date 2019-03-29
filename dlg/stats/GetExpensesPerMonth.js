@@ -40,8 +40,7 @@ exports.do = function(req) {
         for (var i = 0; i < array.length; i++) {
 
           months.push({
-            month: array[i]._id.month,
-            year: array[i]._id.year,
+            yearMonth: array[i]._id.yearMonth,
             amount: array[i].amount
           });
         }
