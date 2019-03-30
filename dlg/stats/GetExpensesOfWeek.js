@@ -23,7 +23,7 @@ exports.do = function(req) {
 
       // Prepare the aggregate
       let aggregate = [
-        {$match: {$and: [{date: {$gte: 20190218}}, {date: {$lte: 20190224}}]}},
+        {$match: {$and: [{date: {$gte: parseInt(dateFrom)}}, {date: {$lte: parseInt(dateTo)}}]}},
         {$group: {_id: null, amount: {$sum: '$amountInEuro'}}}
       ]
 
