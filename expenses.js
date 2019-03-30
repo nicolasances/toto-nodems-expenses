@@ -10,9 +10,9 @@ var getExpenseDlg = require('./dlg/GetExpenseDelegate');
 var getCategoriesDlg = require('./dlg/GetCategoriesDelegate');
 var deleteExpenseDlg = require('./dlg/DeleteExpenseDelegate');
 
-var getExpensesPerWeek = require('./dlg/stats/GetExpensesPerWeek');
 var getExpensesPerDay = require('./dlg/stats/GetExpensesPerDay');
 var getExpensesPerMonth = require('./dlg/stats/GetExpensesPerMonth');
+var getExpensesOfWeek = require('./dlg/stats/GetExpensesOfWeek');
 var getTopCategoriesPerMonth = require('./dlg/stats/GetTopCategoriesPerMonth');
 var getTopCategoriesOfMonth = require('./dlg/stats/GetTopCategoriesOfMonth');
 
@@ -34,8 +34,8 @@ api.path('GET', '/expenses/:yearMonth/total', getExpensesTotalDlg);
 api.path('GET', '/categories', getCategoriesDlg);
 
 api.path('GET', '/stats/expensesPerMonth', getExpensesPerMonth);
-api.path('GET', '/stats/expensesPerWeek', getExpensesPerWeek);
 api.path('GET', '/stats/expensesPerDay', getExpensesPerDay);
+api.path('GET', '/stats/expensesOfWeek', getExpensesOfWeek);
 api.path('GET', '/stats/topCategoriesPerMonth', getTopCategoriesPerMonth);
 api.path('GET', '/stats/topCategoriesOfMonth', getTopCategoriesOfMonth);
 
