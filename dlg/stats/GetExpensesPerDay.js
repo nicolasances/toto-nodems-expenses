@@ -1,29 +1,30 @@
 var mongo = require('mongodb');
 var config = require('../../config');
 var converter = require('../../conv/ExpenseConverter');
+var moment = require('moment-timezone');
 
 var MongoClient = mongo.MongoClient;
 
+/**
+ * Gets the expenses per day from #dateFrom to #dateTo where both dates are optional
+ */
 exports.do = function(req) {
 
   let query = req.query;
 
   return new Promise(function(success, failure) {
 
+    let dateFrom = query.dateFrom ? parseInt(query.dateFrom) : 190001;
+    let dateTo = query.dateTo ? parseInt(query.dateTo) : parseInt(moment().tz('Europe/Rome').add(1, 'days').format('YYYYMMDD'));
+
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
-      // Prepare the filter
-      let filter = {$match: converter.filterExpenses(query)};
-
-      // Prepare the grouping
-      // TODO: Could be optimized: no need to group by date first (i could just go to project and then group by week)
-      let groupByDay = {$group: {_id: {date: '$date'}, amount: {$sum: '$amountInEuro'}}}
-
-      // Sorting
-      let sort = {$sort: {"_id.date": 1}};
-
       // Prepare the aggregate
-      let aggregate = [filter, groupByDay, sort]
+      let aggregate = [
+        {$match: {$and: [{date: {$gte: parseInt(dateFrom)}}, {date: {$lte: parseInt(dateTo)}}]}},
+        {$group: {_id: {date: '$date'}, amount: {$sum: '$amountInEuro'}}},
+        {$sort: {"_id.date": 1}}
+      ]
 
       db.db(config.dbName).collection(config.collections.expenses).aggregate(aggregate).toArray(function(err, array) {
 
