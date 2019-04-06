@@ -11,6 +11,12 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
+    // Some field has to be prese
+    if (request == null || (Object.keys(request).length === 0 && request.constructor === Object)) {
+      failure({code: 400, message: 'No body was passed to PUT expense'});
+      return;
+    }
+
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       db.db(config.dbName).collection(config.collections.expenses).updateOne({_id: new mongo.ObjectId(id)}, converter.updateExpense(request), function(err, res) {
