@@ -11,8 +11,10 @@ exports.updateExpense = function(data) {
 
   if (data.weekendId != null) return {$set: {weekendId: data.weekendId}};
   if (data.clearWeekendId != null) return {$set: {weekendId: null}};
+  if (data.category) return {$set : {category: data.category}};
 
-  return {$set : {category: data.category}};
+  return {}
+
 }
 
 /**
