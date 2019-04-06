@@ -106,7 +106,7 @@ exports.expenseTO = function(data) {
     id: data._id,
     amount: data.amount,
     category: data.category,
-    date: moment(data.date, 'YYYYMMDD'),
+    date: moment(data.date, 'YYYYMMDD').format('YYYYMMDD'),
     description: data.description,
     yearMonth: data.yearMonth,
     consolidated: data.consolidated,
