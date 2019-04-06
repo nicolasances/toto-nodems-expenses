@@ -25,7 +25,7 @@ exports.do = function(req) {
 
           db.close();
 
-          success({});
+          success(res);
 
         });
       });
