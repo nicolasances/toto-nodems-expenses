@@ -29,11 +29,11 @@ exports.updateExpense = function(data) {
           upd.amountInEuro = rate * parseFloat(data.amount);
 
           s({$set: upd});
-        }
+        });
       }
       else {
         upd.amountInEuro: parseFloat(data.amount);
-        
+
         s({$set: upd});
       }
     }
