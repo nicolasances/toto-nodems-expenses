@@ -17,16 +17,18 @@ exports.do = function(req) {
       return;
     }
 
-    return MongoClient.connect(config.mongoUrl, function(err, db) {
+    converter.updateExpense(request).then((update) => {
 
-      db.db(config.dbName).collection(config.collections.expenses).updateOne({_id: new mongo.ObjectId(id)}, converter.updateExpense(request), function(err, res) {
+      return MongoClient.connect(config.mongoUrl, function(err, db) {
 
-        db.close();
+        db.db(config.dbName).collection(config.collections.expenses).updateOne({_id: new mongo.ObjectId(id)}, update, function(err, res) {
 
-        success({});
+          db.close();
 
+          success({});
+
+        });
       });
     });
   });
-
 }

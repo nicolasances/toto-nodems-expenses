@@ -7,13 +7,39 @@ var getExchangeRateDlg = require('../dlg/GetExchangeRateDelegate')
  */
 exports.updateExpense = function(data) {
 
-  if (data.consolidated != null) return {$set: {consolidated: data.consolidated}};
+  return new Promise((s, f) => {
 
-  if (data.weekendId != null) return {$set: {weekendId: data.weekendId}};
-  if (data.clearWeekendId != null) return {$set: {weekendId: null}};
-  if (data.category) return {$set : {category: data.category}};
+    let upd = {};
 
-  return {}
+    if (data.date) upd.date = parseInt(data.date);
+    if (data.category) upd.category = data.category;
+    if (data.description) upd.description = data.description;
+    if (data.yearMonth) upd.yearMonth = parseInt(data.yearMonth);
+    if (data.additionalData) upd.additionalData = data.additionalData;
+    if (data.consolidated) return {$set: {consolidated: data.consolidated}};
+    if (data.weekendId) return {$set: {weekendId: data.weekendId}};
+    if (data.clearWeekendId) return {$set: {weekendId: null}};
+
+    if (data.amount && data.currency) {
+      upd.amount = parseFloat(data.amount);
+      upd.currency = data.currency;
+
+      if (data.currency != 'EUR') {
+        getExchangeRateDlg.getExchangeRate(data.currency).then(function(rate) {
+          upd.amountInEuro = rate * parseFloat(data.amount);
+
+          s({$set: upd});
+        }
+      }
+      else {
+        upd.amountInEuro: parseFloat(data.amount);
+        
+        s({$set: upd});
+      }
+    }
+    else s({$set: upd});
+
+  });
 
 }
 
