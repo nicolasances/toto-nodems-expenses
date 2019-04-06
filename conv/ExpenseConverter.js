@@ -16,9 +16,9 @@ exports.updateExpense = function(data) {
     if (data.description) upd.description = data.description;
     if (data.yearMonth) upd.yearMonth = parseInt(data.yearMonth);
     if (data.additionalData) upd.additionalData = data.additionalData;
-    if (data.consolidated) return {$set: {consolidated: data.consolidated}};
-    if (data.weekendId) return {$set: {weekendId: data.weekendId}};
-    if (data.clearWeekendId) return {$set: {weekendId: null}};
+    if (data.consolidated) upd.consolidated = data.consolidated;
+    if (data.weekendId) upd.weekendId = data.weekendId;
+    if (data.clearWeekendId) upd.weekendId = null;
 
     if (data.amount && data.currency) {
       upd.amount = parseFloat(data.amount);
@@ -32,7 +32,7 @@ exports.updateExpense = function(data) {
         });
       }
       else {
-        upd.amountInEuro: parseFloat(data.amount);
+        upd.amountInEuro = parseFloat(data.amount);
 
         s({$set: upd});
       }
