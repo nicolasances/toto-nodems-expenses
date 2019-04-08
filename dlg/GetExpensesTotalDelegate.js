@@ -33,12 +33,12 @@ exports.do = function(req) {
           return;
         }
 
-        console.log(targetCurrency);
-
         // If required, convert into the target currency
         if (targetCurrency && targetCurrency != 'EUR') {
 
           getExchangeRate.getExchangeRate(targetCurrency).then((rate) => {
+
+            console.log(rate);
 
             let amountInEuro = array[0].sum;
             let convertedAmount = amountInEuro / rate;
