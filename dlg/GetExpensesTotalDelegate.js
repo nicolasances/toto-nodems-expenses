@@ -38,8 +38,6 @@ exports.do = function(req) {
 
           getExchangeRate.getExchangeRate(targetCurrency).then((rate) => {
 
-            console.log(rate);
-
             let amountInEuro = array[0].sum;
             let convertedAmount = amountInEuro / rate;
 
@@ -48,8 +46,7 @@ exports.do = function(req) {
           })
 
         }
-
-        success({total: array[0].sum});
+        else success({total: array[0].sum});
 
       });
     });
