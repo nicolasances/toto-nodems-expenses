@@ -16,6 +16,9 @@ var getExpensesOfWeek = require('./dlg/stats/GetExpensesOfWeek');
 var getTopCategoriesPerMonth = require('./dlg/stats/GetTopCategoriesPerMonth');
 var getTopCategoriesOfMonth = require('./dlg/stats/GetTopCategoriesOfMonth');
 
+var getSettings = require('./dlg/settings/GetSettings');
+var putSettings = require('./dlg/settings/PutSettings');
+
 var apiName = 'expenses';
 
 var api = new Controller(apiName, totoEventPublisher);
@@ -38,5 +41,8 @@ api.path('GET', '/stats/expensesPerDay', getExpensesPerDay);
 api.path('GET', '/stats/expensesOfWeek', getExpensesOfWeek);
 api.path('GET', '/stats/topCategoriesPerMonth', getTopCategoriesPerMonth);
 api.path('GET', '/stats/topCategoriesOfMonth', getTopCategoriesOfMonth);
+
+api.path('GET', '/settings', getSettings);
+api.path('PUT', '/settings', putSettings);
 
 api.listen();
