@@ -11,7 +11,7 @@ exports.update = function(data) {
 
     let upd = {};
 
-    if (data.currency) upd.currency = parseInt(data.currency);
+    if (data.currency) upd.currency = data.currency;
 
     s({$set: upd});
 
