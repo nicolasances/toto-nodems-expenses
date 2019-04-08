@@ -33,6 +33,8 @@ exports.do = function(req) {
           return;
         }
 
+        console.log(targetCurrency);
+
         // If required, convert into the target currency
         if (targetCurrency && targetCurrency != 'EUR') {
 
