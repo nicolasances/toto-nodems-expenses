@@ -12,7 +12,7 @@ var MongoClient = mongo.MongoClient;
 exports.do = function(req) {
 
   let query = req.query;
-  let currencyFilter = req.query.currencyFilter;
+  let targetCurrency = req.query.targetCurrency;
 
   return new Promise(function(success, failure) {
 
