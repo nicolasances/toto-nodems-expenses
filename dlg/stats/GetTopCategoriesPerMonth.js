@@ -1,12 +1,14 @@
 var mongo = require('mongodb');
 var config = require('../../config');
 var converter = require('../../conv/ExpenseConverter');
+var getExchangeRate = require('../GetExchangeRateDelegate');
 
 var MongoClient = mongo.MongoClient;
 
 exports.do = function(req) {
 
   let query = req.query;
+  let targetCurrency = req.query.targetCurrency;
 
   return new Promise(function(success, failure) {
 
@@ -42,7 +44,22 @@ exports.do = function(req) {
           });
         }
 
-        success({months: months});
+        // If required, convert into the target currency
+        if (targetCurrency && targetCurrency != 'EUR') {
+
+          getExchangeRate.getExchangeRate(targetCurrency).then((rate) => {
+
+            for (var i = 0; i < months.length; i++) {
+              months[i].amount = months[i].amount / rate;
+              months[i].currency = targetCurrency;
+            }
+
+            success({months : months});
+
+          })
+
+        }
+        else success({months: months});
 
       });
     });
