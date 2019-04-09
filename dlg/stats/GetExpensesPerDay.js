@@ -2,6 +2,7 @@ var mongo = require('mongodb');
 var config = require('../../config');
 var converter = require('../../conv/ExpenseConverter');
 var moment = require('moment-timezone');
+var getExchangeRate = require('../GetExchangeRateDelegate');
 
 var MongoClient = mongo.MongoClient;
 
@@ -11,6 +12,7 @@ var MongoClient = mongo.MongoClient;
 exports.do = function(req) {
 
   let query = req.query;
+  let currencyFilter = req.query.currencyFilter;
 
   return new Promise(function(success, failure) {
 
@@ -45,7 +47,21 @@ exports.do = function(req) {
           });
         }
 
-        success({days: days});
+        // If required, convert into the target currency
+        if (targetCurrency && targetCurrency != 'EUR') {
+
+          getExchangeRate.getExchangeRate(targetCurrency).then((rate) => {
+
+            for (var i = 0; i < days.length; i++) {
+              days[i].amount = days[i].amount / rate;
+              days[i].currency = targetCurrency;
+            }
+
+            success({days : days});
+
+          });
+        }
+        else success({days: days});
 
       });
     });
