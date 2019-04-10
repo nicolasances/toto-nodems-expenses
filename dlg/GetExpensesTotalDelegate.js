@@ -18,10 +18,13 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
+    // Validation
+    if (!req.query.user) {failure({code: 400, message: 'Missing "user" field.'}); return;}
+
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       var group = {$group: {_id: null, sum: {$sum: '$amountInEuro'}}};
-      var match = {$match: {yearMonth: parseInt(filter.yearMonth)}};
+      var match = {$match: {user: req.query.user, yearMonth: parseInt(filter.yearMonth)}};
       if (filter.currency != null) match.$match.currency = filter.currency;
 
       db.db(config.dbName).collection(config.collections.expenses).aggregate([match, group]).toArray(function(err, array) {

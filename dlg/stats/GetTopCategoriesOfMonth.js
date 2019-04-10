@@ -16,6 +16,8 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
+    // Validation
+    if (!query.user) {failure({code: 400, message: 'Missing "user" field.'}); return;}
     if (query.yearMonth == null) {failure({code: 400, message: 'Missing "yearMonth" query parameter.'}); return;}
 
     let maxCategories = query.maxCategories != null ? parseInt(query.maxCategories) : 5;
@@ -25,7 +27,7 @@ exports.do = function(req) {
 
       // Prepare the aggregate
       let aggregate = [
-        {$match: {yearMonth: yearMonth}},
+        {$match: {user: query.user, yearMonth: yearMonth}},
         {$group: {_id: {category: '$category'}, amount: {$sum: '$amountInEuro'}}},
         {$sort: {'amount': -1}},
         {$limit: maxCategories}

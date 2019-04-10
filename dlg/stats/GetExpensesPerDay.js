@@ -16,6 +16,9 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
+    // Validation
+    if (!query.user) {failure({code: 400, message: 'Missing "user" field.'}); return;}
+
     let dateFrom = query.dateFrom ? parseInt(query.dateFrom) : 190001;
     let dateTo = query.dateTo ? parseInt(query.dateTo) : parseInt(moment().tz('Europe/Rome').add(1, 'days').format('YYYYMMDD'));
 
@@ -23,7 +26,7 @@ exports.do = function(req) {
 
       // Prepare the aggregate
       let aggregate = [
-        {$match: {$and: [{date: {$gte: parseInt(dateFrom)}}, {date: {$lte: parseInt(dateTo)}}]}},
+        {$match: {$and: [{user: query.user}, {date: {$gte: parseInt(dateFrom)}}, {date: {$lte: parseInt(dateTo)}}]}},
         {$group: {_id: {date: '$date'}, amount: {$sum: '$amountInEuro'}}},
         {$sort: {"_id.date": 1}}
       ]

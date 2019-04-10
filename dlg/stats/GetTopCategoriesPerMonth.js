@@ -12,12 +12,16 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
+    // Validation
+    if (!query.user) {failure({code: 400, message: 'Missing "user" field.'}); return;}
+
     let yearMonthGte = query.yearMonthGte == null ? 190001 : parseInt(query.yearMonthGte);
 
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       // Prepare the aggregate
-      let aggregate = [ {$match: {yearMonth: {$gte: yearMonthGte}}},
+      let aggregate = [
+        {$match: {user: query.user, yearMonth: {$gte: yearMonthGte}}},
         {$group: {_id: {yearMonth: '$yearMonth', category: '$category'}, amount: {$sum: '$amountInEuro'}}},
         {$sort: {'_id.yearMonth': 1, 'amount': -1}},
         {$group: {_id: {yearMonth: '$_id.yearMonth'}, category: {$first: '$_id.category'}, amount: {$max: '$amount'}}},

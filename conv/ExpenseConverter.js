@@ -71,6 +71,9 @@ exports.sortExpenses = function(sort) {
  */
 exports.filterExpenses = function(filter) {
 
+  // User filter is now mandatory
+  let userFilter = {user: filter.user};
+
   var yearMonthFilter = {};
   if (filter.yearMonth != null) yearMonthFilter = {yearMonth: parseInt(filter.yearMonth)};
 
@@ -91,7 +94,7 @@ exports.filterExpenses = function(filter) {
   var dateGteFilter = {};
   if (filter.dateGte != null) dateGteFilter = {date: {$gte: parseInt(filter.dateGte)}};
 
-  return {$and: [yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter, dateGteFilter]};
+  return {$and: [userFilter, yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter, dateGteFilter]};
 
 }
 
@@ -116,7 +119,8 @@ exports.expenseTO = function(data) {
     weekendId: data.weekendId,
     currency: data.currency,
     amountInEuro: data.amountInEuro,
-    additionalData: data.additionalData
+    additionalData: data.additionalData,
+    user: data.user
   };
 }
 
@@ -144,7 +148,8 @@ exports.expensePO = function(data) {
           cardYear: data.cardYear,
           currency: data.currency,
           amountInEuro: rate * parseFloat(data.amount),
-          additionalData: data.additionalData
+          additionalData: data.additionalData,
+          user: data.user
         });
       });
 
@@ -162,7 +167,8 @@ exports.expensePO = function(data) {
         cardYear: data.cardYear,
         currency: data.currency,
         amountInEuro: parseFloat(data.amount),
-        additionalData: data.additionalData
+        additionalData: data.additionalData,
+        user: data.user
       });
     }
 

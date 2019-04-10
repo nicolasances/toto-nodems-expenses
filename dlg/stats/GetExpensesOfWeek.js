@@ -16,6 +16,8 @@ exports.do = function(req) {
     let dateFrom = query.dateFrom;
     let dateTo = query.dateTo;
 
+    // Validation
+    if (!query.user) {failure({code: 400, message: 'Missing "user" field.'}); return;}
     if (dateFrom == null) {failure({code: 400, message: 'Field "dateFrom" is required'}); return;}
     if (dateTo == null) {failure({code: 400, message: 'Field "dateTo" is required'}); return;}
 
@@ -23,7 +25,7 @@ exports.do = function(req) {
 
       // Prepare the aggregate
       let aggregate = [
-        {$match: {$and: [{date: {$gte: parseInt(dateFrom)}}, {date: {$lte: parseInt(dateTo)}}]}},
+        {$match: {$and: [{user: query.user}, {date: {$gte: parseInt(dateFrom)}}, {date: {$lte: parseInt(dateTo)}}]}},
         {$group: {_id: null, amount: {$sum: '$amountInEuro'}}}
       ]
 

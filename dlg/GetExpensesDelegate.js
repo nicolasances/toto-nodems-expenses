@@ -29,6 +29,9 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
+      // Validation
+      if (!req.query.user) {failure({code: 400, message: 'Missing "user" field.'}); return;}
+
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       if (filter.maxResults == null) filter.maxResults = 0;
