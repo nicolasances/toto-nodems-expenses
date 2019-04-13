@@ -16,7 +16,7 @@ exports.updateExpense = function(data) {
     if (data.description) upd.description = data.description;
     if (data.yearMonth) upd.yearMonth = parseInt(data.yearMonth);
     if (data.additionalData) upd.additionalData = data.additionalData;
-    if (data.consolidated) upd.consolidated = data.consolidated;
+    if (data.consolidated != null) upd.consolidated = data.consolidated;
     if (data.weekendId) upd.weekendId = data.weekendId;
     if (data.clearWeekendId) upd.weekendId = null;
 
