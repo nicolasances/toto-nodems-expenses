@@ -49,6 +49,8 @@ exports.do = function(req) {
 
           getExchangeRate.getExchangeRate(targetCurrency).then((rate) => {
 
+            console.log(rate);
+
             for (var i = 0; i < years.length; i++) {
               years[i].amount = years[i].amount / rate;
               years[i].currency = targetCurrency;
