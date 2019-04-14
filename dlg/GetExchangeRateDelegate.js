@@ -22,7 +22,7 @@ exports.getExchangeRate = function(currency) {
       // TEMPORARY!!
       // TO BE FIXED: cache every day the rate, since it only changes once a day
       if (rates.error) {
-        if (currency == 'DKK') rates.rate = 7.48;
+        if (currency == 'DKK') rates.rate = 0.13;
       }
 
       success(rates.rate);
