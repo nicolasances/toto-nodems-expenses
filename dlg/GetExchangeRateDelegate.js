@@ -18,6 +18,13 @@ exports.getExchangeRate = function(currency) {
 
       var rates = JSON.parse(body);
 
+      // Fallback: if I went over the quota
+      // TEMPORARY!!
+      // TO BE FIXED: cache every day the rate, since it only changes once a day
+      if (rates.error) {
+        if (currency == 'DKK') rates.rate = 7.48;
+      }
+
       success(rates.rate);
 
     });
