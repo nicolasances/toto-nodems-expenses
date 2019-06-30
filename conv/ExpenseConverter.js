@@ -94,7 +94,21 @@ exports.filterExpenses = function(filter) {
   var dateGteFilter = {};
   if (filter.dateGte != null) dateGteFilter = {date: {$gte: parseInt(filter.dateGte)}};
 
-  return {$and: [userFilter, yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter, dateGteFilter]};
+  // Tag filters
+  // Tag is expected as tagName:tagValue
+  // It will be looked in the "additionalData" field
+  var tagFilter = {};
+  if (filter.tag) {
+
+    let splittedFilter = tagFilter.split(":");
+    let tagName = "additionalData." + splittedFilter[0];
+    let tagValue = splittedFilter[1];
+
+    tagFilter = JSON.parse("{" + tagName + ": " + tagValue + "}");
+
+  }
+
+  return {$and: [userFilter, yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter, dateGteFilter, tagFilter]};
 
 }
 

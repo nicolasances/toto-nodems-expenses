@@ -13,7 +13,8 @@ var MongoClient = mongo.MongoClient;
  *       cardMonth: req.query.cardMonth,
  *       cardYear: req.query.cardYear,
  *       currency: req.query.currency,
- *       dateGte: req.query.dateGte
+ *       dateGte: req.query.dateGte,
+ *       tag: req.query.tag, // FORMATTED as a tagName:tagValue
  *     }
  * Admitted query params for sorting:
  *     { sortDate: req.query.sortDate,
@@ -29,8 +30,8 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
-      // Validation
-      if (!req.query.user) {failure({code: 400, message: 'Missing "user" field.'}); return;}
+    // Validation
+    if (!req.query.user) {failure({code: 400, message: 'Missing "user" field.'}); return;}
 
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
