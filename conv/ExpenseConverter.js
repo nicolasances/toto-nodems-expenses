@@ -104,9 +104,9 @@ exports.filterExpenses = function(filter) {
     let tagName = "additionalData." + splittedFilter[0];
     let tagValue = splittedFilter[1];
 
-    console.log("{" + tagName + ": " + tagValue + "}");
+    console.log("{\"" + tagName + "\": \"" + tagValue + "\"}");
 
-    tagFilter = JSON.parse("{" + tagName + ": " + tagValue + "}");
+    tagFilter = JSON.parse("{\"" + tagName + "\": \"" + tagValue + "\"}");
 
   }
 
