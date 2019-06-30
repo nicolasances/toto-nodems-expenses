@@ -100,7 +100,7 @@ exports.filterExpenses = function(filter) {
   var tagFilter = {};
   if (filter.tag) {
 
-    let splittedFilter = tagFilter.split(":");
+    let splittedFilter = filter.tag.split(":");
     let tagName = "additionalData." + splittedFilter[0];
     let tagValue = splittedFilter[1];
 
