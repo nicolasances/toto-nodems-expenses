@@ -11,7 +11,10 @@ exports.updateExpense = function(data) {
 
     let upd = {};
 
-    if (data.date) upd.date = parseInt(data.date);
+    if (data.date) {
+      upd.date = parseInt(data.date);
+      upd.yearMonth = upd.date.substring(0, 6);
+    }
     if (data.category) upd.category = data.category;
     if (data.description) upd.description = data.description;
     if (data.yearMonth) upd.yearMonth = parseInt(data.yearMonth);
