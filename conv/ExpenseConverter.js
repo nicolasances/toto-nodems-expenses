@@ -22,6 +22,7 @@ exports.updateExpense = function(data) {
     if (data.consolidated != null) upd.consolidated = data.consolidated;
     if (data.weekendId) upd.weekendId = data.weekendId;
     if (data.clearWeekendId) upd.weekendId = null;
+    if (data.monthly) upd.monthly = data.monthly;
 
     if (data.amount && data.currency) {
       upd.amount = parseFloat(data.amount);
@@ -137,7 +138,8 @@ exports.expenseTO = function(data) {
     currency: data.currency,
     amountInEuro: data.amountInEuro,
     additionalData: data.additionalData,
-    user: data.user
+    user: data.user,
+    monthly: data.monthly
   };
 }
 
@@ -166,7 +168,8 @@ exports.expensePO = function(data) {
           currency: data.currency,
           amountInEuro: rate * parseFloat(data.amount),
           additionalData: data.additionalData,
-          user: data.user
+          user: data.user,
+          monthly: data.monthly
         });
       });
 
@@ -185,7 +188,8 @@ exports.expensePO = function(data) {
         currency: data.currency,
         amountInEuro: parseFloat(data.amount),
         additionalData: data.additionalData,
-        user: data.user
+        user: data.user,
+        monthly: data.monthly
       });
     }
 
