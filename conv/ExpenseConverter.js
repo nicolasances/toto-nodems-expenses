@@ -9,6 +9,8 @@ exports.updateExpense = function(data) {
 
   return new Promise((s, f) => {
 
+    console.log(data);
+
     let upd = {};
 
     if (data.date) {

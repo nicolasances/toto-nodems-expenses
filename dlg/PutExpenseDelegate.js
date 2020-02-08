@@ -9,6 +9,10 @@ exports.do = function(req) {
   let id = req.params.id;
   let request = req.body;
 
+  console.log(req)
+  console.log(request);
+  
+
   return new Promise(function(success, failure) {
 
     // Some field has to be prese
@@ -18,8 +22,6 @@ exports.do = function(req) {
     }
 
     converter.updateExpense(request).then((update) => {
-
-      console.log(update)
 
       return MongoClient.connect(config.mongoUrl, function(err, db) {
 
