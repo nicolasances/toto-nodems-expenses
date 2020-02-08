@@ -29,10 +29,8 @@ var totoEventConsumer = new TotoEventConsumer(apiName, 'expenseUpdateRequested',
      * the id of the expense
      */
     putExpenseDlg.do({
-        req: {
-            params: {id: event.id},
-            body: event
-        }
+        params: {id: event.id},
+        body: event
     })
 });
 
