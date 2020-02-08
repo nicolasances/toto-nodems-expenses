@@ -102,7 +102,7 @@ exports.filterExpenses = function(filter) {
   if (filter.monthlyIsNull) monthlyNullFilter = {monthly: null};
 
   var monthlyFilter = {};
-  if (filter.monthly != null) monthlyFilter = {monthly: filter.monthly};
+  if (filter.monthly != null) monthlyFilter = {monthly: Boolean(filter.monthly)};
 
   // Tag filters
   // Tag is expected as tagName:tagValue
