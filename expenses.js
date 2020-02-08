@@ -1,5 +1,6 @@
 var Controller = require('toto-api-controller');
 var totoEventPublisher = require('toto-event-publisher');
+var TotoEventConsumer = require('toto-event-consumer');
 
 var putExpenseDlg = require('./dlg/PutExpenseDelegate');
 var postExpense = require('./dlg/PostExpenseDelegate');
@@ -22,7 +23,20 @@ var putSettings = require('./dlg/settings/PutSettings');
 
 var apiName = 'expenses';
 
-var api = new Controller(apiName, totoEventPublisher);
+var totoEventConsumer = new TotoEventConsumer(apiName, 'expenseUpdateRequested', (event) => {
+    /**
+     * Expects the event to be formatted as a regular PUT /expenses/{id} payload, with, in addition,
+     * the id of the expense
+     */
+    putExpenseDlg.do({
+        req: {
+            params: {id: event.id},
+            body: event
+        }
+    })
+});
+
+var api = new Controller(apiName, totoEventPublisher, totoEventConsumer);
 
 api.path('GET', '/expenses', getExpenses);
 api.path('POST', '/expenses', postExpense);
