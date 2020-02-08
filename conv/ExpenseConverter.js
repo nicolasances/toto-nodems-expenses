@@ -101,6 +101,9 @@ exports.filterExpenses = function(filter) {
   var monthlyNullFilter = {};
   if (filter.monthlyIsNull) monthlyNullFilter = {monthly: null};
 
+  var monthlyFilter = {};
+  if (filter.monthly != null) monthlyFilter = {monthly: filter.monthly};
+
   // Tag filters
   // Tag is expected as tagName:tagValue
   // It will be looked in the "additionalData" field
@@ -115,7 +118,7 @@ exports.filterExpenses = function(filter) {
 
   }
 
-  return {$and: [userFilter, yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter, dateGteFilter, tagFilter, monthlyNullFilter]};
+  return {$and: [userFilter, yearMonthFilter, categoryFilter, cardFilter, cardMonthFilter, currencyFilter, dateGteFilter, tagFilter, monthlyNullFilter, monthlyFilter]};
 
 }
 
