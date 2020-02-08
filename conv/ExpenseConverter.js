@@ -9,8 +9,6 @@ exports.updateExpense = function(data) {
 
   return new Promise((s, f) => {
 
-    console.log(data);
-
     let upd = {};
 
     if (data.date) {
@@ -24,7 +22,7 @@ exports.updateExpense = function(data) {
     if (data.consolidated != null) upd.consolidated = data.consolidated;
     if (data.weekendId) upd.weekendId = data.weekendId;
     if (data.clearWeekendId) upd.weekendId = null;
-    if (data.monthly) upd.monthly = data.monthly;
+    if (data.monthly != null) upd.monthly = data.monthly;
 
     if (data.amount && data.currency) {
       upd.amount = parseFloat(data.amount);
