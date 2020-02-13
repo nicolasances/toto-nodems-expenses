@@ -9,7 +9,11 @@ exports.do = function(req) {
   let id = req.params.id;
   let request = req.body;
 
+  
   return new Promise(function(success, failure) {
+
+    // Validations
+    if (id.length != 24) {failure({code: 400, message: 'The expense id is not a valid identifier. Got: ' + id}); return;}
 
     // Some field has to be prese
     if (request == null || (Object.keys(request).length === 0 && request.constructor === Object)) {

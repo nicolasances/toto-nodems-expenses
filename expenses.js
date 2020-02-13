@@ -1,3 +1,4 @@
+var logger = require('toto-logger');
 var Controller = require('toto-api-controller');
 var totoEventPublisher = require('toto-event-publisher');
 var TotoEventConsumer = require('toto-event-consumer');
@@ -31,6 +32,8 @@ var totoEventConsumer = new TotoEventConsumer(apiName, 'expenseUpdateRequested',
     putExpenseDlg.do({
         params: {id: event.id},
         body: event
+    }).then(() => {}, (error) => {
+        logger.compute(error.correlationId, error.message, 'error')
     })
 });
 
