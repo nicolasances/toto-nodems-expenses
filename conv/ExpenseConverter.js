@@ -77,7 +77,7 @@ exports.filterExpenses = function(filter) {
 
   // User filter is now mandatory
   let userFilter = {};
-  if (filter.user != '_') userFilter = {user: filter.user};
+  if (filter.user != 'all') userFilter = {user: filter.user};
 
   var yearMonthFilter = {};
   if (filter.yearMonth != null) yearMonthFilter = {yearMonth: parseInt(filter.yearMonth)};
