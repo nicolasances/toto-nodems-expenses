@@ -76,7 +76,8 @@ exports.sortExpenses = function(sort) {
 exports.filterExpenses = function(filter) {
 
   // User filter is now mandatory
-  let userFilter = {user: filter.user};
+  let userFilter = {};
+  if (filter.user != '_') userFilter = {user: filter.user};
 
   var yearMonthFilter = {};
   if (filter.yearMonth != null) yearMonthFilter = {yearMonth: parseInt(filter.yearMonth)};
