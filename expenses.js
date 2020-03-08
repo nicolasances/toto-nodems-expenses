@@ -22,6 +22,8 @@ var getTopCategoriesOfMonth = require('./dlg/stats/GetTopCategoriesOfMonth');
 var getSettings = require('./dlg/settings/GetSettings');
 var putSettings = require('./dlg/settings/PutSettings');
 
+var monthlyCron = require('./cron/MonthlyCron');
+
 var apiName = 'expenses';
 
 var totoEventConsumer = new TotoEventConsumer(apiName, 'expenseUpdateRequested', (event) => {
@@ -36,6 +38,9 @@ var totoEventConsumer = new TotoEventConsumer(apiName, 'expenseUpdateRequested',
         logger.compute(error.correlationId, error.message, 'error')
     })
 });
+
+// Start the cron jobs
+monthlyCron.startCron();
 
 var api = new Controller(apiName, totoEventPublisher, totoEventConsumer);
 
