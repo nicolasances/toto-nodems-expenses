@@ -44,7 +44,7 @@ exports.do = () => {
 
                     expense = data.expenses[i];
                     expense.yearMonth = thisMonth;
-                    expense.date = moment(expense.date, 'YYYYMMDD').add(1, 'months')
+                    expense.date = moment(expense.date, 'YYYYMMDD').add(1, 'months').format('YYYYMMDD');
 
                     postExpense.do({body: expense})
 
