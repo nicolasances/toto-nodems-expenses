@@ -30,7 +30,7 @@ exports.startCron = () => {
 
                 // If the cron job has already ran
                 if (res != null && res.ran) {
-                    logger.compute(cid, '[ MONTHLY EXPENSE CRON ] -  ' + res);
+                    console.log(res);
                     logger.compute(cid, '[ MONTHLY EXPENSE CRON ] - Monthly expenses have already been created for month ' + thisMonth + '. Interrupting cron job.');
                     db.close();
                     return;
