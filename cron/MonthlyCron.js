@@ -51,7 +51,7 @@ exports.startCron = () => {
                         expense.yearMonth = thisMonth;
                         expense.date = moment(expense.date, 'YYYYMMDD').add(1, 'months')
 
-                        postExpense.do(expense)
+                        postExpense.do({body: expense})
 
                     }
 
