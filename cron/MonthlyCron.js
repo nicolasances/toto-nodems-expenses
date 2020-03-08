@@ -15,7 +15,8 @@ var MongoClient = mongo.MongoClient;
  */
 exports.startCron = () => {
 
-    cron.schedule("*/30 * * * * *", () => {
+    // Cron runs every day at 19:00:00
+    cron.schedule("0 0 19 * * *", () => {
 
         cid = correlation.cid()
 
