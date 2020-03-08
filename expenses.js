@@ -26,6 +26,9 @@ var monthlyCron = require('./cron/MonthlyCron');
 
 var apiName = 'expenses';
 
+// Event consumer and publisher
+totoEventPublisher.registerTopic({topicName: 'erboh-predict-single', microservice: apiName})
+
 var totoEventConsumer = new TotoEventConsumer(apiName, 'expenseUpdateRequested', (event) => {
     /**
      * Expects the event to be formatted as a regular PUT /expenses/{id} payload, with, in addition,
