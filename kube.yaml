@@ -19,3 +19,16 @@ spec:
               image: eu.gcr.io/toto-270718/toto-nodems-expenses
               ports:
               - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: toto-nodems-expenses-svc
+spec:
+    selector:
+        microservice: toto-nodems-expenses
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 8080
+         
