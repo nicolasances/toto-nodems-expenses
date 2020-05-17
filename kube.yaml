@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: toto-nodems-expenses-depl
+    labels:
+        microserice: toto-nodems-expenses
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            microservice: toto-nodems-expenses
+    template:
+        metadata:
+            labels:
+                microservice: toto-nodems-expenses
+        spec:
+            containers:
+            - name: toto-nodems-expenses
+              image: toto-nodems-expenses
+              ports:
+              - containerPort: 8080
