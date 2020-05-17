@@ -16,6 +16,6 @@ spec:
         spec:
             containers:
             - name: toto-nodems-expenses
-              image: toto-nodems-expenses
+              image: eu.gcr.io/toto-270718/toto-nodems-expenses
               ports:
               - containerPort: 8080
