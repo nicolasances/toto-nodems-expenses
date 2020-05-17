@@ -1,5 +1,5 @@
 
-exports.mongoUrl = "mongodb://mongo:27017/";
+exports.mongoUrl = "mongodb://imazdev.it:27017/";
 
 exports.dbName = 'expenses';
 exports.collections = {
