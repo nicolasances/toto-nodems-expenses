@@ -19,6 +19,16 @@ spec:
               image: eu.gcr.io/toto-270718/toto-nodems-expenses
               ports:
               - containerPort: 8080
+              volumeMounts:
+                  - mountPath: /var/secrets/google
+                    name: service-account-key-vol
+              env:
+                  - name: GOOGLE_APPLICATION_CREDENTIALS
+                    value: /var/secrets/google/ms-key.json
+            volumes:
+                - name: service-account-key-vol
+                  secret:
+                      secretName: ms-service-account-key
 ---
 apiVersion: v1
 kind: Service
