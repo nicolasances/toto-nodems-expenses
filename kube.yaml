@@ -25,6 +25,11 @@ spec:
               env:
                   - name: GOOGLE_APPLICATION_CREDENTIALS
                     value: /var/secrets/google/ms-key.json
+                  - name: TOTO_ENV
+                    valueFrom:
+                        configMapKeyRef:
+                            name: env-map
+                            key: env
             volumes:
                 - name: service-account-key-vol
                   secret:
