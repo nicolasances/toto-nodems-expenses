@@ -13,5 +13,11 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: Login to Dockerhub
+      run: docker login -u ${{secrets.DOCKERHUB_USER}} -p ${{secrets.DOCKERHUB_PSWD}}
+
     - name: Build Docker image
       run: docker build . -t nicolasances/toto-nodems-expenses
+
+    - name: Push Docker image to Dockerhub 
+      run: docker push nicolasances/toto-nodems-expenses
