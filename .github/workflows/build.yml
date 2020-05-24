@@ -1,0 +1,17 @@
+name: Build Microservice
+
+on:
+  push:
+    branches: [ k8s ]
+
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build . -t nicolasances/toto-nodems-expenses
