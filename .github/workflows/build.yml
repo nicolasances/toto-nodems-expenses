@@ -15,12 +15,14 @@ jobs:
 
     - name: Login to Dockerhub
       run: echo ${{secrets.DOCKERHUB_PSWD}} | docker login -u ${{secrets.DOCKERHUB_USER}} --password-stdin
-    
-    - name: Retrieve new version number
-      run: | 
-       export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
-       echo $PACKAGE_VERSION
 
-    - name: Log package version 
-      run: echo $PACKAGE_VERSION
+    - name: Build Docker image
+      run: |
+        export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+        docker build . -t nicolasances/toto-nodems-expenses:$PACKAGE_VERSION
+ 
+    - name: Push Docker image to Dockerhub 
+      run: |
+        export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+        docker push nicolasances/toto-nodems-expenses:$PACKAGE_VERSION
     
