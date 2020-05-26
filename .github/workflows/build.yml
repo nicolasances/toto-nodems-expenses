@@ -18,12 +18,11 @@ jobs:
     
     - name: Retrieve new version number
       run: | 
-       PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
-       echo ::set-output name=current-version::$PACKAGE_VERSION
+       export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
 
     - name: Build Docker image
-      run: docker build . -t nicolasances/toto-nodems-expenses:${{ steps.package-version.outputs.current-version}}
+      run: docker build . -t nicolasances/toto-nodems-expenses:$PACKAGE_VERSION
 
     - name: Push Docker image to Dockerhub 
-      run: docker push nicolasances/toto-nodems-expenses:${{ steps.package-version.outputs.current-version}}
+      run: docker push nicolasances/toto-nodems-expenses:$PACKAGE_VERSION
     
