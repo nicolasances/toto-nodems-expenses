@@ -13,6 +13,9 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: Echo build version
+      run: echo $GITHUB_RUN_NUMBER
+
     - name: Login to Dockerhub
       run: echo ${{secrets.DOCKERHUB_PSWD}} | docker login -u ${{secrets.DOCKERHUB_USER}} --password-stdin
 
