@@ -16,7 +16,7 @@ spec:
         spec:
             containers:
             - name: toto-nodems-expenses
-              image: nicolasances/toto-nodems-expenses:1.0.0
+              image: nicolasances/toto-nodems-expenses:1.0
               ports:
               - containerPort: 8080
               volumeMounts:
