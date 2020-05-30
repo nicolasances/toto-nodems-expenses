@@ -6,6 +6,7 @@ metadata:
         microserice: toto-nodems-expenses
 spec:
     replicas: 2
+    revisionHistoryLimit: 0
     selector:
         matchLabels:
             microservice: toto-nodems-expenses
