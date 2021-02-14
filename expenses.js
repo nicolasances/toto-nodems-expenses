@@ -45,7 +45,7 @@ var apiName = 'expenses';
 // Start the cron jobs
 // monthlyCron.startCron();
 
-var api = new Controller(apiName, totoEventPublisher, totoEventConsumer);
+var api = new Controller(apiName);
 
 api.path('GET', '/expenses', getExpenses);
 api.path('POST', '/expenses', postExpense);
