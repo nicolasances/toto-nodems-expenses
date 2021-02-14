@@ -1,6 +1,6 @@
 {
   "name": "toto-nodems-expenses",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "",
   "main": "expenses.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "node-cron": "^2.0.3",
     "toto-api-controller": "^4.7.2",
     "toto-event-consumer": "^6.2.0",
-    "toto-event-publisher": "6.2.0", 
+    "toto-event-publisher": "6.2.0",
     "request": "2.88.2"
   }
 }
