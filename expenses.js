@@ -1,7 +1,7 @@
 var logger = require('toto-logger');
 var Controller = require('toto-api-controller');
-var totoEventPublisher = require('toto-event-publisher');
-var TotoEventConsumer = require('toto-event-consumer');
+// var totoEventPublisher = require('toto-event-publisher');
+// var TotoEventConsumer = require('toto-event-consumer');
 
 var putExpenseDlg = require('./dlg/PutExpenseDelegate');
 var postExpense = require('./dlg/PostExpenseDelegate');
@@ -22,28 +22,28 @@ var getTopCategoriesOfMonth = require('./dlg/stats/GetTopCategoriesOfMonth');
 var getSettings = require('./dlg/settings/GetSettings');
 var putSettings = require('./dlg/settings/PutSettings');
 
-var monthlyCron = require('./cron/MonthlyCron');
+// var monthlyCron = require('./cron/MonthlyCron');
 
 var apiName = 'expenses';
 
 // Event consumer and publisher
-totoEventPublisher.registerTopic({topicName: 'erboh-predict-single', microservice: apiName})
+// totoEventPublisher.registerTopic({topicName: 'erboh-predict-single', microservice: apiName})
 
-var totoEventConsumer = new TotoEventConsumer(apiName, 'expenseUpdateRequested', (event) => {
-    /**
-     * Expects the event to be formatted as a regular PUT /expenses/{id} payload, with, in addition,
-     * the id of the expense
-     */
-    putExpenseDlg.do({
-        params: {id: event.id},
-        body: event
-    }).then(() => {}, (error) => {
-        logger.compute(error.correlationId, error.message, 'error')
-    })
-});
+// var totoEventConsumer = new TotoEventConsumer(apiName, 'expenseUpdateRequested', (event) => {
+//     /**
+//      * Expects the event to be formatted as a regular PUT /expenses/{id} payload, with, in addition,
+//      * the id of the expense
+//      */
+//     putExpenseDlg.do({
+//         params: {id: event.id},
+//         body: event
+//     }).then(() => {}, (error) => {
+//         logger.compute(error.correlationId, error.message, 'error')
+//     })
+// });
 
 // Start the cron jobs
-monthlyCron.startCron();
+// monthlyCron.startCron();
 
 var api = new Controller(apiName, totoEventPublisher, totoEventConsumer);
 

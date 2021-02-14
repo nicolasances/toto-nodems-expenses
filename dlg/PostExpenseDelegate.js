@@ -1,7 +1,7 @@
 var mongo = require('mongodb');
 var config = require('../config');
 var converter = require('../conv/ExpenseConverter');
-var totoEventPublisher = require('toto-event-publisher');
+// var totoEventPublisher = require('toto-event-publisher');
 
 var MongoClient = mongo.MongoClient;
 
@@ -30,14 +30,14 @@ exports.do = function(request) {
           success({id: res.insertedId});
 
           // Request a prediction on the "monthly attribute"
-          totoEventPublisher.publishEvent('erboh-predict-single', {
-            id: res.insertedId, 
-            amount: body.amount, 
-            user: body.user, 
-            category: body.category, 
-            description: body.description, 
-            date: body.date
-          })
+          // totoEventPublisher.publishEvent('erboh-predict-single', {
+          //   id: res.insertedId, 
+          //   amount: body.amount, 
+          //   user: body.user, 
+          //   category: body.category, 
+          //   description: body.description, 
+          //   date: body.date
+          // })
 
         });
       });
