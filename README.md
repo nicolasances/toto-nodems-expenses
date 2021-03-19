@@ -1,1 +1,1 @@
-This microservice exposes all informations related to Payments registered in Toto.
+This microservice exposes all informations related to Payments registered in Toto. 
