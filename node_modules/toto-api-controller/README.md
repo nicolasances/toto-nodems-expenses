@@ -10,6 +10,14 @@ It will also publish the following endpoints:
 This API Controller will also log following the standard Toto Logging policies.<br/>
 See https://github.com/nicolasances/node-toto-logger
 
+## Authorization check
+This Controller performs a few mandatory checks on the requests. 
+
+One of those checks is to verify that the provided Authorization header is passed and only the authorized CLIENT is able to access this API. 
+
+So **IMPORTANT**: 
+The validator expects the environment variable `AUTHORIZED_CLIENT_ID`, that will have to contain the client id that will be authorized to access this microservice.
+
 ## How to use it
 1. Include it:
 ```

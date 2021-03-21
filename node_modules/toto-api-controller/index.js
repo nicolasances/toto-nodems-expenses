@@ -15,267 +15,280 @@ var fs = require('fs-extra');       //File System - for file manipulation
  */
 class TotoAPIController {
 
-  /**
-   * The constructor requires the express app
-   * Requires:
-   * - apiName              : (mandatory) - the name of the api (e.g. expenses)
-   * - totoEventPublisher   : (optional) - a TotoEventPublisher object that contains topics registrations
-   *                          if this is passed, the API will give access to the published topics on the /publishes path
-   * - totoEventConsumer    : (optional) - a TotoEventConsumer object that contains topics registrations
-   *                          if this is passed, the API will give access to the listened topics on the /consumes path
-   */
-  constructor(apiName, totoEventPublisher, totoEventConsumer) {
+    /**
+     * The constructor requires the express app
+     * Requires:
+     * - apiName              : (mandatory) - the name of the api (e.g. expenses)
+     * - totoEventPublisher   : (optional) - a TotoEventPublisher object that contains topics registrations
+     *                          if this is passed, the API will give access to the published topics on the /publishes path
+     * - totoEventConsumer    : (optional) - a TotoEventConsumer object that contains topics registrations
+     *                          if this is passed, the API will give access to the listened topics on the /consumes path
+     */
+    constructor(apiName, totoEventPublisher, totoEventConsumer) {
 
-    this.app = express();
-    this.apiName = apiName;
-    this.totoEventPublisher = totoEventPublisher;
-    this.totoEventConsumer = totoEventConsumer;
+        this.app = express();
+        this.apiName = apiName;
+        this.totoEventPublisher = totoEventPublisher;
+        this.totoEventConsumer = totoEventConsumer;
 
-    // Init the paths
-    this.paths = [];
+        // Init the paths
+        this.paths = [];
 
-    // Initialize the basic Express functionalities
-    this.app.use(function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-correlation-id, x-msg-id");
-      res.header("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
-      next();
-    });
+        // Initialize the basic Express functionalities
+        this.app.use(function (req, res, next) {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-correlation-id, x-msg-id");
+            res.header("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
+            next();
+        });
 
-    this.app.use(bodyParser.json());
-    this.app.use(busboy());
-    this.app.use(express.static(path.join(__dirname, 'public')));
+        this.app.use(bodyParser.json());
+        this.app.use(busboy());
+        this.app.use(express.static(path.join(__dirname, 'public')));
 
-    // Add the standard Toto paths
-    // Add the basic SMOKE api
-    this.path('GET', '/', {do: (req) => {
+        // Add the standard Toto paths
+        // Add the basic SMOKE api
+        this.path('GET', '/', {
+            do: (req) => {
 
-      return new Promise((s, f) => {
+                return new Promise((s, f) => {
 
-        return s({api: apiName, status: 'running'})
-      });
-    }});
+                    return s({ api: apiName, status: 'running' })
+                });
+            }
+        });
 
-    // Add the /publishes path
-    this.path('GET', '/produces', {do: (req) => {
+        // Add the /publishes path
+        this.path('GET', '/produces', {
+            do: (req) => {
 
-      return new Promise((s, f) => {
+                return new Promise((s, f) => {
 
-        if (this.totoEventPublisher != null) s({topics: totoEventPublisher.getRegisteredTopics()});
-        else s({topics: []});
-      });
-    }})
+                    if (this.totoEventPublisher != null) s({ topics: totoEventPublisher.getRegisteredTopics() });
+                    else s({ topics: [] });
+                });
+            }
+        })
 
-    // Add the /consumes path
-    this.path('GET', '/consumes', {do: (req) => {
+        // Add the /consumes path
+        this.path('GET', '/consumes', {
+            do: (req) => {
 
-      return new Promise((s, f) => {
+                return new Promise((s, f) => {
 
-        if (this.totoEventConsumer != null) s({topics: totoEventConsumer.getRegisteredTopics()});
-        else s({topics: []});
-      })
-    }})
-  }
+                    if (this.totoEventConsumer != null) s({ topics: totoEventConsumer.getRegisteredTopics() });
+                    else s({ topics: [] });
+                })
+            }
+        })
+    }
 
-  /**
-   * This method will register the specified path to allow access to the static content in the specified folder
-   * e.g. staticContent('/img', '/app/img')
-   */
-  staticContent(path, folder) {
+    /**
+     * This method will register the specified path to allow access to the static content in the specified folder
+     * e.g. staticContent('/img', '/app/img')
+     */
+    staticContent(path, folder) {
 
-    this.app.use(path, express.static(folder));
+        this.app.use(path, express.static(folder));
 
-  }
+    }
 
-  /**
-   * Adds a path that support uploading files
-   *  - path:     the path as expected by express. E.g. '/upload'
-   */
-  fileUploadPath(path, delegate) {
+    /**
+     * Adds a path that support uploading files
+     *  - path:     the path as expected by express. E.g. '/upload'
+     */
+    fileUploadPath(path, delegate) {
 
-    // Cache the path
-    this.paths.push({
-      method: 'POST',
-      path: path,
-      delegate: delegate
-    });
+        // Cache the path
+        this.paths.push({
+            method: 'POST',
+            path: path,
+            delegate: delegate
+        });
 
-    this.app.route(path).post(function (req, res, next) {
+        this.app.route(path).post(function (req, res, next) {
 
-        // Validating
-        let validationResult = validator.do(req);
-        if (validationResult.errors) {res.status(400).type('application/json').send({code: 400, message: 'Validation errors', errors: validationResult.errors}); return;}
+            // Validating
+            let validationResult = validator.do(req);
+            if (validationResult.errors) { res.status(400).type('application/json').send({ code: 400, message: 'Validation errors', errors: validationResult.errors }); return; }
 
-        logger.apiIn(req.headers['x-correlation-id'], 'POST', path, req.headers['x-msg-id']);
+            logger.apiIn(req.headers['x-correlation-id'], 'POST', path, req.headers['x-msg-id']);
 
-        var fstream;
+            var fstream;
 
-        req.pipe(req.busboy);
+            req.pipe(req.busboy);
 
-        req.busboy.on('file', (fieldname, file, filename) => {
+            req.busboy.on('file', (fieldname, file, filename) => {
 
-          logger.compute(req.headers['x-correlation-id'], 'Uploading file ' + filename, 'info');
+                logger.compute(req.headers['x-correlation-id'], 'Uploading file ' + filename, 'info');
 
-          // DEfine the target dir
-          let dir = __dirname + '/app-docs';
+                // DEfine the target dir
+                let dir = __dirname + '/app-docs';
 
-          // Ensure that the dir exists
-          fs.ensureDirSync(dir);
+                // Ensure that the dir exists
+                fs.ensureDirSync(dir);
 
-          // Create the file stream
-          fstream = fs.createWriteStream(dir + '/' + filename);
+                // Create the file stream
+                fstream = fs.createWriteStream(dir + '/' + filename);
 
-          // Pipe the file data to the stream
-          file.pipe(fstream);
+                // Pipe the file data to the stream
+                file.pipe(fstream);
 
-          // When done, call the delegate
-          fstream.on('close', () => {
+                // When done, call the delegate
+                fstream.on('close', () => {
 
-            delegate.do({query: req.query, params: req.params, headers: req.headers, body: {filepath: dir + '/' + filename}}).then((data) => {
-              // Success
-              res.status(200).type('application/json').send(data);
+                    delegate.do({ query: req.query, params: req.params, headers: req.headers, body: { filepath: dir + '/' + filename } }).then((data) => {
+                        // Success
+                        res.status(200).type('application/json').send(data);
 
-            }, (err) => {
-              // Log
-              logger.compute(req.headers['x-correlation-id'], err, 'error');
-              // If the err is a {code: 400, message: '...'}, then it's a validation error
-              if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
-              // Failure
-              else res.status(500).type('application/json').send(err);
+                    }, (err) => {
+                        // Log
+                        logger.compute(req.headers['x-correlation-id'], err, 'error');
+                        // If the err is a {code: 400, message: '...'}, then it's a validation error
+                        if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
+                        // Failure
+                        else res.status(500).type('application/json').send(err);
+                    });
+
+                });
+            });
+        });
+
+        // Log the added path
+        console.log('[' + this.apiName + '] - Successfully added method ' + 'POST' + ' ' + path);
+    }
+
+    /**
+     * Add a path to the app.
+     * Requires:
+     *  - method:   the HTTP method. Can be GET, POST, PUT, DELETE
+     *  - path:     the path as expected by express. E.g. '/sessions/:id'
+     *  - delegate: the delegate that exposes a do() function. Note that the delegate will always receive the entire req object
+     */
+    path(method, path, delegate) {
+
+        // Cache the path
+        this.paths.push({
+            method: method,
+            path: path,
+            delegate: delegate
+        });
+
+        // Create a new express route
+        if (method == 'GET') this.app.get(path, (req, res) => {
+
+            // Validating
+            validator.do(req).then((validationResult) => {
+
+                if (validationResult.errors) { res.status(400).type('application/json').send({ code: 400, message: 'Validation errors', errors: validationResult.errors }); return; }
+
+                // Log the fact that a call has been received
+                logger.apiIn(req.headers['x-correlation-id'], method, path, req.headers['x-msg-id']);
+
+                // Execute the GET
+                delegate.do(req).then((data) => {
+                    // Success
+                    res.status(200).type('application/json').send(data);
+                }, (err) => {
+                    // Log
+                    logger.compute(req.headers['x-correlation-id'], err, 'error');
+                    // If the err is a {code: 400, message: '...'}, then it's a validation error
+                    if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
+                    // Failure
+                    else res.status(500).type('application/json').send(err);
+                });
             });
 
-          });
         });
-    });
+        else if (method == 'POST') this.app.post(path, (req, res) => {
 
-    // Log the added path
-    console.log('[' + this.apiName + '] - Successfully added method ' + 'POST' + ' ' + path);
-  }
+            // Validating
+            validator.do(req).then((validationResult) => {
 
-  /**
-   * Add a path to the app.
-   * Requires:
-   *  - method:   the HTTP method. Can be GET, POST, PUT, DELETE
-   *  - path:     the path as expected by express. E.g. '/sessions/:id'
-   *  - delegate: the delegate that exposes a do() function. Note that the delegate will always receive the entire req object
-   */
-  path(method, path, delegate) {
+                if (validationResult.errors) { res.status(400).type('application/json').send({ code: 400, message: 'Validation errors', errors: validationResult.errors }); return; }
 
-    // Cache the path
-    this.paths.push({
-      method: method,
-      path: path,
-      delegate: delegate
-    });
+                // Log the fact that a call has been received
+                logger.apiIn(req.headers['x-correlation-id'], method, path, req.headers['x-msg-id']);
 
-    // Create a new express route
-    if (method == 'GET') this.app.get(path, (req, res) => {
+                // Execute the POST
+                delegate.do(req).then((data) => {
+                    // Success
+                    res.status(201).type('application/json').send(data);
+                }, (err) => {
+                    // Log
+                    logger.compute(req.headers['x-correlation-id'], err, 'error');
+                    // If the err is a {code: 400, message: '...'}, then it's a validation error
+                    if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
+                    // Failure
+                    else res.status(500).type('application/json').send(err);
+                });
+            });
 
-      // Validating
-      let validationResult = validator.do(req);
+        });
+        else if (method == 'DELETE') this.app.delete(path, (req, res) => {
 
-      if (validationResult.errors) {res.status(400).type('application/json').send({code: 400, message: 'Validation errors', errors: validationResult.errors}); return;}
+            // Validating
+            validator.do(req).then((validationResult) => {
 
-      // Log the fact that a call has been received
-      logger.apiIn(req.headers['x-correlation-id'], method, path, req.headers['x-msg-id']);
+                if (validationResult.errors) { res.status(400).type('application/json').send({ code: 400, message: 'Validation errors', errors: validationResult.errors }); return; }
 
-      // Execute the GET
-      delegate.do(req).then((data) => {
-        // Success
-        res.status(200).type('application/json').send(data);
-      }, (err) => {
-        // Log
-        logger.compute(req.headers['x-correlation-id'], err, 'error');
-        // If the err is a {code: 400, message: '...'}, then it's a validation error
-        if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
-        // Failure
-        else res.status(500).type('application/json').send(err);
-      });
-    });
-    else if (method == 'POST') this.app.post(path, (req, res) => {
+                // Log the fact that a call has been received
+                logger.apiIn(req.headers['x-correlation-id'], method, path, req.headers['x-msg-id']);
 
-      // Validating
-      let validationResult = validator.do(req);
+                // Execute the DELETE
+                delegate.do(req).then((data) => {
+                    // Success
+                    res.status(200).type('application/json').send(data);
+                }, (err) => {
+                    // Log
+                    logger.compute(req.headers['x-correlation-id'], err, 'error');
+                    // If the err is a {code: 400, message: '...'}, then it's a validation error
+                    if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
+                    // Failure
+                    else res.status(500).type('application/json').send(err);
+                });
 
-      if (validationResult.errors) {res.status(400).type('application/json').send({code: 400, message: 'Validation errors', errors: validationResult.errors}); return;}
+            });
+        });
+        else if (method == 'PUT') this.app.put(path, (req, res) => {
 
-      // Log the fact that a call has been received
-      logger.apiIn(req.headers['x-correlation-id'], method, path, req.headers['x-msg-id']);
+            // Validating
+            validator.do(req).then((validationResult) => {
 
-      // Execute the POST
-      delegate.do(req).then((data) => {
-        // Success
-        res.status(201).type('application/json').send(data);
-      }, (err) => {
-        // Log
-        logger.compute(req.headers['x-correlation-id'], err, 'error');
-        // If the err is a {code: 400, message: '...'}, then it's a validation error
-        if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
-        // Failure
-        else res.status(500).type('application/json').send(err);
-      });
-    });
-    else if (method == 'DELETE') this.app.delete(path, (req, res) => {
+                if (validationResult.errors) { res.status(400).type('application/json').send({ code: 400, message: 'Validation errors', errors: validationResult.errors }); return; }
 
-      // Validating
-      let validationResult = validator.do(req);
+                // Log the fact that a call has been received
+                logger.apiIn(req.headers['x-correlation-id'], method, path, req.headers['x-msg-id']);
 
-      if (validationResult.errors) {res.status(400).type('application/json').send({code: 400, message: 'Validation errors', errors: validationResult.errors}); return;}
+                // Execute the PUT
+                delegate.do(req).then((data) => {
+                    // Success
+                    res.status(200).type('application/json').send(data);
+                }, (err) => {
+                    // Log
+                    logger.compute(req.headers['x-correlation-id'], err, 'error');
+                    // If the err is a {code: 400, message: '...'}, then it's a validation error
+                    if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
+                    // Failure
+                    else res.status(500).type('application/json').send(err);
+                });
+            });
+        });
 
-      // Log the fact that a call has been received
-      logger.apiIn(req.headers['x-correlation-id'], method, path, req.headers['x-msg-id']);
+        // Log the added path
+        console.log('[' + this.apiName + '] - Successfully added method ' + method + ' ' + path);
+    }
 
-      // Execute the DELETE
-      delegate.do(req).then((data) => {
-        // Success
-        res.status(200).type('application/json').send(data);
-      }, (err) => {
-        // Log
-        logger.compute(req.headers['x-correlation-id'], err, 'error');
-        // If the err is a {code: 400, message: '...'}, then it's a validation error
-        if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
-        // Failure
-        else res.status(500).type('application/json').send(err);
-      });
-    });
-    else if (method == 'PUT') this.app.put(path, (req, res) => {
+    /**
+     * Starts the ExpressJS app by listening on the standard port defined for Toto microservices
+     */
+    listen() {
 
-      // Validating
-      let validationResult = validator.do(req);
+        this.app.listen(8080, () => {
+            console.log('[' + this.apiName + '] - Up and running');
+        });
 
-      if (validationResult.errors) {res.status(400).type('application/json').send({code: 400, message: 'Validation errors', errors: validationResult.errors}); return;}
-
-      // Log the fact that a call has been received
-      logger.apiIn(req.headers['x-correlation-id'], method, path, req.headers['x-msg-id']);
-
-      // Execute the PUT
-      delegate.do(req).then((data) => {
-        // Success
-        res.status(200).type('application/json').send(data);
-      }, (err) => {
-        // Log
-        logger.compute(req.headers['x-correlation-id'], err, 'error');
-        // If the err is a {code: 400, message: '...'}, then it's a validation error
-        if (err != null && err.code == '400') res.status(400).type('application/json').send(err);
-        // Failure
-        else res.status(500).type('application/json').send(err);
-      });
-    });
-
-    // Log the added path
-    console.log('[' + this.apiName + '] - Successfully added method ' + method + ' ' + path);
-  }
-
-  /**
-   * Starts the ExpressJS app by listening on the standard port defined for Toto microservices
-   */
-  listen() {
-
-    this.app.listen(8080, () => {
-      console.log('[' + this.apiName + '] - Up and running');
-    });
-
-  }
+    }
 }
 
 // Export the module
