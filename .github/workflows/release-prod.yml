@@ -2,13 +2,13 @@ name: Release
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ master ]
 
 jobs:
   # This workflow contains a single job called "release"
   release:
     name: Build & Deploy to Cloud run
-    environment: dev
+    environment: prod
     runs-on: ubuntu-latest
 
     steps:
@@ -46,4 +46,4 @@ jobs:
     
     - name: Deploy image
       run: | 
-        gcloud run deploy ${{env.PACKAGE_NAME}} --set-env-vars "MONGO_HOST=${{ secrets.MONGO_HOST }},MONGO_USER=${{ secrets.MONGO_USER }},MONGO_PWD=${{ secrets.MONGO_PWD }}" --project=${{ secrets.GCP_PID }} --image=eu.gcr.io/${{ secrets.GCP_PID }}/${{env.PACKAGE_NAME}}:${{env.PACKAGE_VERSION}} --platform=managed --region=europe-west1
+        gcloud run deploy ${{env.PACKAGE_NAME}} --set-env-vars "MONGO_HOST=${{ secrets.MONGO_HOST }},MONGO_USER=${{ secrets.MONGO_USER }},MONGO_PWD=${{ secrets.MONGO_PWD }}" --project=${{ secrets.GCP_PID }} --image=eu.gcr.io/${{ secrets.GCP_PID }}/${{env.PACKAGE_NAME}}:${{env.PACKAGE_VERSION}} --platform=managed --region=europe-west1 --allow-unauthenticated
