@@ -1,5 +1,5 @@
 
-exports.mongoUrl = "mongodb://mongo.imatz.it:27017/";
+exports.mongoUrl = "mongodb://" + process.env.MONGO_USER + ":" + process.env.MONGO_PWD + "@" + process.env.MONGO_HOST + ":27017/expenses";
 
 exports.dbName = 'expenses';
 exports.collections = {
