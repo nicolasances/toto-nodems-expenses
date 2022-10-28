@@ -7,7 +7,7 @@ var MongoClient = mongo.MongoClient;
 
 exports.do = function(req, userContext, execContext) {
 
-  let body = request.body;
+  let body = req.body;
 
   return new Promise(function(success, failure) {
 
