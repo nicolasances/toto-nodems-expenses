@@ -2,7 +2,8 @@ name: Release
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - 'release/**'
 
 jobs:
   # This workflow contains a single job called "release"
@@ -38,7 +39,7 @@ jobs:
         docker push eu.gcr.io/${{ secrets.GCP_PID }}/${{env.PACKAGE_NAME}}:${{env.PACKAGE_VERSION}}
     
     - name: Setup GCloud 
-      uses: google-github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@v0
       with:
         project_id: ${{ secrets.GCP_PID }}
         service_account_key: ${{ secrets.SERVICE_ACCOUNT }}

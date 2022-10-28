@@ -5,7 +5,7 @@ var getExchangeRate = require('../GetExchangeRateDelegate');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   let query = req.query;
   let targetCurrency = req.query.targetCurrency;

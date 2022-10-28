@@ -46,7 +46,7 @@ categories.set('XMAS', newCategory('XMAS', 'Gifts', 'gifts.svg', colors.get('gre
 categories.set('FOOD', newCategory('FOOD', 'Food', 'food.svg', colors.get('cyan')));
 categories.set('VARIE', newCategory('VARIE', 'Other', 'other.svg', colors.get('grey')));
 
-exports.do = function() {
+exports.do = function(req, userContext, execContext) {
 
   return new Promise(function(success, failure) {
 

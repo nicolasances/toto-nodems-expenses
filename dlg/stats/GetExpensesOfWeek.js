@@ -7,7 +7,7 @@ var MongoClient = mongo.MongoClient;
 /**
  * Get the total expenses of a specific week defined by dateFrom and dateTo
  */
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   let query = req.query;
 

@@ -8,7 +8,7 @@ var correlation = require('../util/CorrelationId');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = () => {
+exports.do = (req, userContext, execContext) => {
 
     cid = correlation.cid()
 

@@ -9,7 +9,7 @@ var MongoClient = mongo.MongoClient;
 /**
  * Gets the expenses per day from #dateFrom to #dateTo where both dates are optional
  */
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   let query = req.query;
   let targetCurrency = req.query.targetCurrency;
