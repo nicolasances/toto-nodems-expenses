@@ -19,6 +19,8 @@ exports.exchangeRateUrl = 'https://v3.exchangerate-api.com/pair/4c53838ecdaca2a7
 
 class Config {
 
+    googleAuthorizedClientIDs = {}
+
     load() {
 
         console.log("Loading configuration...");
@@ -27,16 +29,17 @@ class Config {
 
             let promises = [];
 
-            promises.push(client.accessSecretVersion({ name: 'projects/' + process.env.GCP_PID + '/secrets/toto-client-id-google/versions/latest' }).then(([version]) => {
+            promises.push(client.accessSecretVersion({ name: 'projects/' + process.env.GCP_PID + '/secrets/client-id-google-toto-money-ios/versions/latest' }).then(([version]) => {
 
-                this.clientIDGoogle = version.payload.data.toString();
+                this.googleAuthorizedClientIDs.totoMoneyiOS = version.payload.data.toString();
 
-                console.log(`Retrieved Google Client ID: ${this.clientIDGoogle}`);
             }));
 
-            // promises.push(client.accessSecretVersion({ name: 'projects/' + process.env.GCP_PID + '/secrets/toto-client-id-firebase/versions/latest' }).then(([version]) => {
-            //     this.clientIDFirebase = version.payload.data.toString();
-            // }));
+            promises.push(client.accessSecretVersion({ name: 'projects/' + process.env.GCP_PID + '/secrets/client-id-google-toto-money-web/versions/latest' }).then(([version]) => {
+
+                this.googleAuthorizedClientIDs.totoMoneyWeb = version.payload.data.toString();
+
+            }));
 
             Promise.all(promises).then(() => {
                 console.log("Configuration Loaded!");
@@ -56,7 +59,7 @@ getProps() {
 
 getAuthorizedClientIDs() {
     return {
-        "google": this.clientIDGoogle
+        "google": this.googleAuthorizedClientIDs
     }
 }
 }

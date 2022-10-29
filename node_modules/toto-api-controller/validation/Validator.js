@@ -54,7 +54,7 @@ class Validator {
 
             if (!this.authorizedClientIDs['google']) errors.push("No Google Client ID provided!");
 
-            let promise = googleAuthCheck(cid, authorizationHeader, this.authorizedClientIDs['google'], this.logger).then((userContext) => { return { userContext: userContext } }, (err) => { errors.push(err); })
+            let promise = googleAuthCheck(cid, req.headers, this.authorizedClientIDs['google'], this.logger).then((userContext) => { return { userContext: userContext } }, (err) => { errors.push(err); })
 
             promises.push(promise);
 
