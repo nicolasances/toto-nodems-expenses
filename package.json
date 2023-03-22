@@ -15,6 +15,6 @@
     "mongodb": "^3.1.0-beta4",
     "node-cron": "^2.0.3",
     "request": "^2.88.2",
-    "toto-api-controller": "^10.0.0"
+    "toto-api-controller": "^10.0.2"
   }
 }
