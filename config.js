@@ -29,11 +29,11 @@ class Config {
 
             let promises = [];
 
-            // promises.push(client.accessSecretVersion({ name: 'projects/' + process.env.GCP_PID + '/secrets/client-id-google-toto-money-ios/versions/latest' }).then(([version]) => {
+            promises.push(client.accessSecretVersion({ name: 'projects/' + process.env.GCP_PID + '/secrets/client-id-google-toto-money-ios/versions/latest' }).then(([version]) => {
 
-            //     this.googleAuthorizedClientIDs.totoMoneyiOS = version.payload.data.toString();
+                this.googleAuthorizedClientIDs.totoMoneyiOS = version.payload.data.toString();
 
-            // }));
+            }));
 
             promises.push(client.accessSecretVersion({ name: 'projects/' + process.env.GCP_PID + '/secrets/client-id-google-toto-money-web/versions/latest' }).then(([version]) => {
 
@@ -59,7 +59,7 @@ class Config {
 
     getAuthorizedClientIDs() {
         return {
-            "google": this.googleAuthorizedClientIDs.totoMoneyWeb
+            "google": this.googleAuthorizedClientIDs
         }
     }
 }
