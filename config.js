@@ -46,22 +46,22 @@ class Config {
                 success()
             }, failure);
 
-    })
+        })
 
-}
-
-getProps() {
-    return {
-        noCorrelationId: false,
-        noAuth: false
     }
-}
 
-getAuthorizedClientIDs() {
-    return {
-        "google": this.googleAuthorizedClientIDs
+    getProps() {
+        return {
+            noCorrelationId: false,
+            noAuth: false
+        }
     }
-}
+
+    getAuthorizedClientIDs() {
+        return {
+            "google": this.googleAuthorizedClientIDs.totoMoneyWeb
+        }
+    }
 }
 
 exports.config = new Config();
