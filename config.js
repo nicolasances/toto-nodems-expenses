@@ -1,4 +1,5 @@
 const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
+const TotoAuthProvider = require('./util/TotoAuthProvider');
 
 // Instantiates a client
 const client = new SecretManagerServiceClient();
@@ -61,6 +62,10 @@ class Config {
         return {
             "google": this.googleAuthorizedClientIDs
         }
+    }
+
+    getCustomAuthVerifier() {
+        return new TotoAuthProvider({ authAPIEndpoint: process.env.AUTH_MS_ENDPOINT });
     }
 }
 
