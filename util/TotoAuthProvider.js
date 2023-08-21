@@ -10,12 +10,16 @@ class TotoAuthProvider {
 
         return new Promise((success, failure) => {
 
+            console.log("Validating custom token");
+
             verifyToken(this.authAPIEndpoint, idToken, null).then((result) => {
 
                 if (!result || result.code == 400) {
                     failure(result.message);
                     return;
                 }
+
+                console.log("Custom token successfully validated");
 
                 success({
                     sub: result.sub,
