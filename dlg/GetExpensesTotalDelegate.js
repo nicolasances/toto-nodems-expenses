@@ -6,7 +6,7 @@ var getExchangeRate = require('./GetExchangeRateDelegate');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   // Pass targetCurrency to change the currency of the output
   let targetCurrency = req.query.targetCurrency;

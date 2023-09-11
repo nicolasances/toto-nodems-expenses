@@ -2,7 +2,8 @@ name: Release
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - 'release/**'
 
 jobs:
   # This workflow contains a single job called "release"
@@ -38,7 +39,7 @@ jobs:
         docker push eu.gcr.io/${{ secrets.GCP_PID }}/${{env.PACKAGE_NAME}}:${{env.PACKAGE_VERSION}}
     
     - name: Setup GCloud 
-      uses: google-github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@v0
       with:
         project_id: ${{ secrets.GCP_PID }}
         service_account_key: ${{ secrets.SERVICE_ACCOUNT }}
@@ -46,4 +47,4 @@ jobs:
     
     - name: Deploy image
       run: | 
-        gcloud run deploy ${{env.PACKAGE_NAME}} --set-env-vars "MONGO_HOST=${{ secrets.MONGO_HOST }},MONGO_USER=${{ secrets.MONGO_USER }},MONGO_PWD=${{ secrets.MONGO_PWD }},AUTHORIZED_CLIENT_ID=${{ secrets.AUTHORIZED_CLIENT_ID }}" --project=${{ secrets.GCP_PID }} --image=eu.gcr.io/${{ secrets.GCP_PID }}/${{env.PACKAGE_NAME}}:${{env.PACKAGE_VERSION}} --platform=managed --region=europe-west1 --allow-unauthenticated
+        gcloud run deploy ${{env.PACKAGE_NAME}} --set-env-vars "AUTH_MS_ENDPOINT=${{ secrets.AUTH_MS_ENDPOINT }},MONGO_HOST=${{ secrets.MONGO_HOST }},MONGO_USER=${{ secrets.MONGO_USER }},MONGO_PWD=${{ secrets.MONGO_PWD }},AUTHORIZED_CLIENT_ID=${{ secrets.AUTHORIZED_CLIENT_ID }},GCP_PID=${{ secrets.GCP_PID }}" --service-account=${{ secrets.MICROSERVICE_ACCOUNT }} --project=${{ secrets.GCP_PID }} --image=eu.gcr.io/${{ secrets.GCP_PID }}/${{env.PACKAGE_NAME}}:${{env.PACKAGE_VERSION}} --platform=managed --region=europe-west1 --allow-unauthenticated

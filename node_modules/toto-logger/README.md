@@ -5,7 +5,7 @@ This npm library standardizes the way that toto microservices will log informati
 
 Logs in toto have the following structure:
 ```
-> [correlationID] - [logType] - [logLevel] - Message
+> [correlationID] - [apiName] - [logType] - [logLevel] - Message
 ```
 Where:
 * `correlationID`   should be always present for apis and reactive microservices and is the identifier that can be used to track the flow of data through sync and async calls
@@ -24,7 +24,8 @@ Where:
 ## How to use it
 Instantiate it:
 ```
-var logger = require('toto-logger');
+const Logger = require('toto-logger');
+let logger = new Logger("apiname");
 ```
 
 Log, based on the type of log

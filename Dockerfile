@@ -7,4 +7,4 @@ COPY . /app/
 WORKDIR /app
 RUN npm install
 
-CMD node /app/expenses.js
+CMD node /app/index.js

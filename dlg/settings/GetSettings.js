@@ -3,7 +3,7 @@ var config = require('../../config');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   let user = req.query.user;
 

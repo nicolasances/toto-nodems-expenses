@@ -4,7 +4,7 @@ var converter = require('../../conv/SettingsConverter');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   let body = req.body;
 

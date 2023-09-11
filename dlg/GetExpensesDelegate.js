@@ -23,7 +23,7 @@ var MongoClient = mongo.MongoClient;
  *       sortDesc: req.query.sortDesc
  *     }
  */
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   let filter = req.query;
   let sort = req.query;

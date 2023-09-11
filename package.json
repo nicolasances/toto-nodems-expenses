@@ -1,6 +1,6 @@
 {
   "name": "toto-nodems-expenses",
-  "version": "4.0.0",
+  "version": "4.3.0",
   "description": "",
   "main": "expenses.js",
   "scripts": {
@@ -9,14 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/secret-manager": "^4.1.3",
     "google-auth-library": "^7.0.2",
     "moment-timezone": "^0.5.23",
     "mongodb": "^3.1.0-beta4",
     "node-cron": "^2.0.3",
     "request": "^2.88.2",
-    "toto-api-controller": "^5.0.0",
-    "toto-event-consumer": "^6.2.0",
-    "toto-event-publisher": "6.2.0",
-    "toto-logger": "^4.0.0"
+    "toto-api-controller": "^10.0.2"
   }
 }

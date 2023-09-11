@@ -9,7 +9,7 @@ var MongoClient = mongo.MongoClient;
 /**
  * Retrieves the top x (#maxCategories) spending categories of month m (#yearMonth)
  */
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   let query = req.query;
   let targetCurrency = req.query.targetCurrency;

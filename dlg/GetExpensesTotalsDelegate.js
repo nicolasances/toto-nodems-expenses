@@ -18,7 +18,7 @@ var getYearMonth = function(currentYearMonth, subtractMonths) {
 /**
  * Retrieves the list of totals for n months (specified in request.maxResults)
  */
-exports.do = function(req) {
+exports.do = function(req, userContext, execContext) {
 
   let request = {
     maxResults: req.query.maxResults,
