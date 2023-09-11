@@ -10,7 +10,8 @@ var MongoClient = mongo.MongoClient;
 
 exports.do = (req, userContext, execContext) => {
 
-    cid = correlation.cid()
+    const cid = correlation.cid()
+    const logger = execContext.logger;
 
     logger.compute(cid, '[ MONTHLY EXPENSE CRON ] - Checking if monthly expenses have already been created.')
 
