@@ -21,7 +21,7 @@ exports.do = (req, userContext, execContext) => {
 
         db.db(config.dbName).collection(config.collections.cron).findOne({name: 'monthly-cron', yearMonth: thisMonth}, function(err, res) {
 
-            // If the cron job has already ran
+            // If the cron job has already run
             if (res != null && res.ran) {
                 logger.compute(cid, '[ MONTHLY EXPENSE CRON ] - Monthly expenses have already been created for month ' + thisMonth + '. Interrupting cron job.');
                 db.close();

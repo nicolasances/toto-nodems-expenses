@@ -20,6 +20,8 @@ let getTopCategoriesOfMonth = require('./dlg/stats/GetTopCategoriesOfMonth');
 let getSettings = require('./dlg/settings/GetSettings');
 let putSettings = require('./dlg/settings/PutSettings');
 
+const createMonthlyExpenses = require('./dlg/CreateMonthlyExpenses');
+
 let apiName = 'expenses';
 
 let api = new Controller(apiName, config.config);
@@ -46,5 +48,7 @@ api.path('GET', '/stats/topCategoriesOfMonth', getTopCategoriesOfMonth);
 
 api.path('GET', '/settings', getSettings);
 api.path('PUT', '/settings', putSettings);
+
+api.path('POST', '/job/monthlyex', createMonthlyExpenses);
 
 api.listen();
