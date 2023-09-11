@@ -60,7 +60,9 @@ class Config {
 
     getAuthorizedClientIDs() {
         return {
-            "google": this.googleAuthorizedClientIDs
+            "google": {
+                "any": this.googleAuthorizedClientIDs
+            }
         }
     }
 
