@@ -53,7 +53,7 @@ exports.do = async (req, userContext, execContext) => {
             expense.yearMonth = thisMonth;
             expense.date = moment(expense.date, 'YYYYMMDD').add(1, 'months').format('YYYYMMDD');
 
-            logger.compute(cid, `[ MONTHLY EXPENSE CRON ] - Creating expense "${expense.description}" of ${expense.amount} ${expense.currency}`, "info")
+            logger.compute(cid, `[ MONTHLY EXPENSE CRON ] - Creating expense "${expense.description}" of ${expense.amount} ${expense.currency} for user ${expense.user}`, "info")
 
             await postExpense.do({ body: expense })
 
