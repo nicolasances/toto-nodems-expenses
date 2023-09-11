@@ -28,6 +28,11 @@ exports.do = function(req, userContext, execContext) {
   let filter = req.query;
   let sort = req.query;
 
+  const logger = execContext.logger; 
+  const cid = execContext.cid;
+
+  logger.compute(cid, `Retrieving expenses with filter ${JSON.stringify(filter)}`, "info");
+
   return new Promise(function(success, failure) {
 
     // Validation

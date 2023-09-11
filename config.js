@@ -1,11 +1,12 @@
 const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
 const TotoAuthProvider = require('./util/TotoAuthProvider');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
 
 // Instantiates a client
 const client = new SecretManagerServiceClient();
 
 exports.mongoUrl = "mongodb://" + process.env.MONGO_USER + ":" + process.env.MONGO_PWD + "@" + process.env.MONGO_HOST + ":27017/expenses";
-
 exports.dbName = 'expenses';
 exports.collections = {
     expenses: 'expenses',
@@ -66,6 +67,14 @@ class Config {
 
     getCustomAuthVerifier() {
         return new TotoAuthProvider({ authAPIEndpoint: process.env.AUTH_MS_ENDPOINT });
+    }
+
+    getMongoUrl() {
+        return "mongodb://" + process.env.MONGO_USER + ":" + process.env.MONGO_PWD + "@" + process.env.MONGO_HOST + ":27017/expenses";
+    }
+
+    async getMongoClient() {
+        return await new MongoClient(this.getMongoUrl(), { useNewUrlParser: true }).connect();
     }
 }
 
